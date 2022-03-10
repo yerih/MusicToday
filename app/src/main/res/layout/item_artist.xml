@@ -20,25 +20,32 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <com.architectcoders.musictoday.ui.common.AspectRatioImageView
-                android:id="@+id/artist_cover"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                app:ratio="1.5"
-                tools:src="@tools:sample/backgrounds/scenic" />
+            <androidx.cardview.widget.CardView
+                android:layout_marginVertical="2dp"
+                app:cardCornerRadius="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.architectcoders.musictoday.ui.common.AspectRatioImageView
+                    android:id="@+id/artist_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:ratio="1.5"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                app:cardCornerRadius="16dp">
 
                 <TextView
+                    android:id="@+id/artist_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:id="@+id/artist_title"
                     android:background="@color/black"
                     android:gravity="center"
                     android:lines="2"

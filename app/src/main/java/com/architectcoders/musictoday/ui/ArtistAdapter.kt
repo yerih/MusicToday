@@ -5,24 +5,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.ItemArtistBinding
-import com.architectcoders.musictoday.model.ArtistLastFmResult
-import com.architectcoders.musictoday.model.ArtistLastFmResult.Artists.Artist
+import com.architectcoders.musictoday.model.PopularArtists
 import com.architectcoders.musictoday.model.inflate
+import com.architectcoders.musictoday.model.loadUrl
 
 class ArtistAdapter(
-    private val listener: (Artist) -> Unit
+    private val listener: (PopularArtists.Data) -> Unit
 ) : RecyclerView.Adapter<ArtistAdapter.ViewHolder>() {
 
-    var artists = listOf<ArtistLastFmResult.Artists.Artist>()
+    var artists = listOf<PopularArtists.Data>()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val bi = ItemArtistBinding.bind(view)
-        fun bind(artist: Artist) = with(bi) {
+        fun bind(artist: PopularArtists.Data) = with(bi) {
             artistTitle.text = artist.name
-
+            artistCover.loadUrl(artist.picture_medium)
         }
-//            movieTitle.text = movie.title
-//            movieCover.loadUrl("https://image.tmdb.org/t/p/w185/${movie.posterPath}")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):

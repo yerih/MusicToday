@@ -1,13 +1,11 @@
 package com.architectcoders.musictoday.ui
 
-
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.architectcoders.musictoday.databinding.ActivityMainBinding
-import com.architectcoders.musictoday.model.LastFmService
-import com.architectcoders.musictoday.ui.ArtistAdapter
+import com.architectcoders.musictoday.model.DeezerService
 import kotlinx.coroutines.launch
 
 
@@ -21,8 +19,10 @@ class MainActivity : AppCompatActivity() {
         bi.recycler.adapter = adapter
 
         lifecycleScope.launch {
-            val artists = LastFmService.service.artistOfToday().artists.artist
+            val artists = DeezerService.service.getPopularArtists().artists
             Log.i("TGB", "${artists}")
+            Log.i("TGB", "${artists[0].name} ${artists[0].picture_small}")
+
             adapter.artists = artists
             bi.recycler.adapter = adapter
         }
