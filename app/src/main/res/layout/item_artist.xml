@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        app:contentPadding="5dp"
         app:cardCornerRadius="16dp">
 
         <LinearLayout
@@ -19,7 +18,7 @@
             android:layout_height="wrap_content"
             android:foreground="?attr/selectableItemBackground"
             android:orientation="vertical"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <com.architectcoders.musictoday.ui.common.AspectRatioImageView
                 android:id="@+id/artist_cover"
@@ -29,19 +28,26 @@
                 app:ratio="1.5"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
-            <TextView
-                android:id="@+id/artist_title"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/black"
-                android:gravity="center"
-                android:lines="2"
-                android:minLines="2"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
-                tools:text="@tools:sample/lorem" />
+                app:cardCornerRadius="16dp"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/artist_title"
+                    android:background="@color/black"
+                    android:gravity="center"
+                    android:lines="2"
+                    android:minLines="2"
+                    android:padding="6dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                    android:textColor="@color/white"
+                    tools:text="@tools:sample/lorem" />
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
