@@ -16,12 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val bi = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bi.root)
-        bi.recycler.adapter = adapter
-
         lifecycleScope.launch {
             val artists = DeezerService.service.getPopularArtists().artists
             Log.i("TGB", "${artists}")
-            Log.i("TGB", "${artists[0].name} ${artists[0].picture_small}")
+            Log.i("TGB", "${artists[0].name} ${artists[0].picture_medium}")
 
             adapter.artists = artists
             bi.recycler.adapter = adapter
