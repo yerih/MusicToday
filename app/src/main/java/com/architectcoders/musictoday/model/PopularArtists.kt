@@ -1,11 +1,16 @@
 package com.architectcoders.musictoday.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+
+@Parcelize
 data class PopularArtists(
     @SerializedName("data") val artists: List<Data>,
     val total: Int
-) {
+) : Parcelable {
+    @Parcelize
     data class Data(
         val id: Int,
         val link: String,
@@ -19,5 +24,5 @@ data class PopularArtists(
         val radio: Boolean,
         val tracklist: String,
         val type: String
-    )
+    ) : Parcelable
 }
