@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday.ui
+package com.architectcoders.musictoday.ui.main
 
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +10,14 @@ import com.architectcoders.musictoday.model.inflate
 import com.architectcoders.musictoday.model.loadUrl
 
 class ArtistAdapter(
-    private val listener: (PopularArtists.Data) -> Unit
+    private val listener: (PopularArtists.Artist) -> Unit
 ) : RecyclerView.Adapter<ArtistAdapter.ViewHolder>() {
 
-    var artists = listOf<PopularArtists.Data>()
+    var artists = listOf<PopularArtists.Artist>()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val bi = ItemArtistBinding.bind(view)
-        fun bind(artist: PopularArtists.Data) = with(bi) {
+        fun bind(artist: PopularArtists.Artist) = with(bi) {
             artistTitle.text = artist.name
             artistCover.loadUrl(artist.picture_medium)
         }

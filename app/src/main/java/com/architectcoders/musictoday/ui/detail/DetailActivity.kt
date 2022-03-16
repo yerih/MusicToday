@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday.ui
+package com.architectcoders.musictoday.ui.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +20,7 @@ class DetailActivity: AppCompatActivity() {
         val bi = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(bi.root)
 
-        intent.getParcelableExtra<PopularArtists.Data>(ARTIST)?.run{
+        intent.getParcelableExtra<PopularArtists.Artist>(ARTIST)?.run{
 //            log("TGB", "run")
             lifecycleScope.launch {
                 val artistInfo = MusicService.service.getArtistInfo(name).artist

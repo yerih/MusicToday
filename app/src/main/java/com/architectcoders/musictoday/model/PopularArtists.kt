@@ -7,11 +7,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PopularArtists(
-    @SerializedName("data") val artists: List<Data>,
+    @SerializedName("data") val artists: List<Artist>,
     val total: Int
 ) : Parcelable {
     @Parcelize
-    data class Data(
+    data class Artist(
         val id: Int,
         val link: String,
         val name: String,
