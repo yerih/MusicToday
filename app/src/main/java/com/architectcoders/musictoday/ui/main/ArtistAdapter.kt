@@ -2,16 +2,18 @@ package com.architectcoders.musictoday.ui.main
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.ItemArtistBinding
 import com.architectcoders.musictoday.model.PopularArtists
+import com.architectcoders.musictoday.model.basicDiffUtil
 import com.architectcoders.musictoday.model.inflate
 import com.architectcoders.musictoday.model.loadUrl
 
 class ArtistAdapter(
     private val listener: (PopularArtists.Artist) -> Unit
-) : RecyclerView.Adapter<ArtistAdapter.ViewHolder>() {
+) : ListAdapter<PopularArtists.Artist, ArtistAdapter.ViewHolder>(basicDiffUtil { old, new -> old.id == new.id }) {
 
     var artists = listOf<PopularArtists.Artist>()
 

@@ -16,9 +16,7 @@ class MainViewModel() : ViewModel() {
 
     private val _state = MutableLiveData(UiState())
     val state:LiveData<UiState> get() {
-        if(_state.value?.popularArtists == null){
-            refresh()
-        }
+        if(_state.value?.popularArtists == null) refresh()
         return _state
     }
 
