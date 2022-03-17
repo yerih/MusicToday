@@ -25,7 +25,6 @@ class MainViewModel() : ViewModel() {
         viewModelScope.launch{
             _state.value = UiState(loading = true)
             _state.value = UiState(popularArtists = MusicService.service.getPopularArtists())
-//            log("refresh ${state.value?.popularArtists?.artists}")
         }
     }
 

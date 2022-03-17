@@ -18,30 +18,20 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels{MainViewModelFactory()}
     private val adapter = ArtistAdapter{ viewModel.onArtistClicked(it) }
+    private lateinit var bi: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bi = ActivityMainBinding.inflate(layoutInflater)
+        bi = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bi.root)
-
-//        bi.recycler.adapter = adapter
-//        lifecycleScope.launch {
-//            val artists = MusicService.service.getPopularArtists().artists
-//            Log.i("TGB", "$artists")
-//
-//            val adapter = ArtistAdapter{ viewModel.onArtistClicked(it) }
-//            adapter.artists = artists
-//            bi.recycler.adapter = adapter
-//        }
         viewModel.state.observe(this, ::updateUI)
     }
 
     private fun updateUI(state: MainViewModel.UiState) {
         //TODO: loader true
-        log("updateUI: ${state.popularArtists}")
-        state.popularArtists?.let {
-            log("state popArts let")
-            adapter.submitList(it.artists)
+        state.popularArtists?.let { it ->
+            adapter.artists = it.artists
+            bi.recycler.adapter = adapter
         }
         state.navigateTo?.let(::navigateTo)
     }
