@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.architectcoders.musictoday.databinding.ActivityMainBinding
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
+import com.architectcoders.musictoday.model.basicDiffUtil
 import com.architectcoders.musictoday.model.log
 import com.architectcoders.musictoday.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
@@ -31,7 +32,8 @@ class MainActivity : AppCompatActivity() {
         //TODO: loader true
         state.popularArtists?.let { it ->
             adapter.artists = it.artists
-            bi.recycler.adapter = adapter
+            if(bi.recycler.adapter != adapter)
+                bi.recycler.adapter = adapter
         }
         state.navigateTo?.let(::navigateTo)
     }

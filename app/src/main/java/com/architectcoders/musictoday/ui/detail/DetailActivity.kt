@@ -1,13 +1,11 @@
 package com.architectcoders.musictoday.ui.detail
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.architectcoders.musictoday.databinding.ActivityDetailsBinding
-import com.architectcoders.musictoday.model.MusicService
-import com.architectcoders.musictoday.model.PopularArtists
-import com.architectcoders.musictoday.model.loadUrl
-import com.architectcoders.musictoday.model.log
+import com.architectcoders.musictoday.model.*
 import kotlinx.coroutines.launch
 
 class DetailActivity: AppCompatActivity() {
@@ -15,22 +13,26 @@ class DetailActivity: AppCompatActivity() {
         const val ARTIST = "DetailActivity:artist"
     }
 
+    private val viewModel: DetailViewModel by viewModels {
+        DetailViewModelFactory(intent.getParcelableExtra(ARTIST)!!)
+    }
+    private lateinit var bi: ActivityDetailsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bi = ActivityDetailsBinding.inflate(layoutInflater)
+        bi = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(bi.root)
-
-        intent.getParcelableExtra<PopularArtists.Artist>(ARTIST)?.run{
-//            log("TGB", "run")
-            lifecycleScope.launch {
-                val artistInfo = MusicService.service.getArtistInfo(name).artist
-                log("artistInfo = $artistInfo")
-                bi.artistDetailToolbar.title = artistInfo.name
-                bi.artistDetailSummary.text  = artistInfo.bio.published
-                bi.artistDetailInfo.text     = artistInfo.bio.summary
-                bi.artistDetailImage.loadUrl(picture_medium)
-            }
-        }
+        viewModel.state.observe(this, ::updateUI)
     }
 
+    private fun updateUI(state: DetailViewModel.UiState){
+        with(bi) {
+            state.artistInfo?.let {
+                artistDetailToolbar.title = it.name
+                artistDetailSummary.text = it.bio.published
+                artistDetailInfo.text = it.bio.summary
+            }
+            state.popularArtist?.let { artistDetailImage.loadUrl(it.picture_medium) }
+        }
+    }
 }

@@ -1,10 +1,12 @@
 package com.architectcoders.musictoday.ui.main
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
 import com.architectcoders.musictoday.model.log
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 
 class MainViewModel() : ViewModel() {

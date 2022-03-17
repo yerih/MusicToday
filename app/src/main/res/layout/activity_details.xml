@@ -63,7 +63,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     tools:text="Lorem ipsum" />
 
@@ -73,7 +72,6 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:lineSpacingMultiplier="1.5"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:background="?attr/colorSurface"
                     tools:text="Lorem ipsum" />
