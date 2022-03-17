@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.CoroutineScope
 
 fun Context.log(label: String = "TGB", value: String = "value?"){
     Log.i(label, value)
@@ -23,6 +24,14 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = true): 
 
 fun ImageView.loadUrl(url: String){
     Glide.with(context).load(url).into(this)
+}
+
+fun CoroutineScope.log(label: String, value: String){
+    Log.i(label, value)
+}
+
+fun CoroutineScope.log(value: String){
+    log("TGB", value)
 }
 
 inline fun <T> basicDiffUtil(

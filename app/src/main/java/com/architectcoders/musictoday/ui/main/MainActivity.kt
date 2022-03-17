@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.architectcoders.musictoday.databinding.ActivityMainBinding
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
+import com.architectcoders.musictoday.model.log
 import com.architectcoders.musictoday.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val bi = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bi.root)
 
-        bi.recycler.adapter = adapter
+//        bi.recycler.adapter = adapter
 //        lifecycleScope.launch {
 //            val artists = MusicService.service.getPopularArtists().artists
 //            Log.i("TGB", "$artists")
@@ -37,7 +38,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateUI(state: MainViewModel.UiState) {
         //TODO: loader true
-        state.popularArtists?.let { adapter.submitList(it.artists) }
+        log("updateUI: ${state.popularArtists}")
+        state.popularArtists?.let {
+            log("state popArts let")
+            adapter.submitList(it.artists)
+        }
         state.navigateTo?.let(::navigateTo)
     }
 

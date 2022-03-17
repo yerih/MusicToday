@@ -3,6 +3,7 @@ package com.architectcoders.musictoday.ui.main
 import androidx.lifecycle.*
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
+import com.architectcoders.musictoday.model.log
 import kotlinx.coroutines.launch
 
 
@@ -24,6 +25,7 @@ class MainViewModel() : ViewModel() {
         viewModelScope.launch{
             _state.value = UiState(loading = true)
             _state.value = UiState(popularArtists = MusicService.service.getPopularArtists())
+//            log("refresh ${state.value?.popularArtists?.artists}")
         }
     }
 
