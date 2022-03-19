@@ -33,6 +33,10 @@ class MainViewModel() : ViewModel() {
         _state.value = _state.value.copy(navigateTo = artist)
     }
 
+    fun onNavigationDone() {
+        _state.value = _state.value.copy(navigateTo = null)
+    }
+
 }
 
 @Suppress("UNCHECKED_CAST")

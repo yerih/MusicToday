@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
 
@@ -62,6 +65,17 @@ var View.visible: Boolean get() { return visibility == View.VISIBLE }
     set(value) { visibility = if(value) View.VISIBLE else View.GONE}
 
 
+fun <T> LifecycleOwner.launchAndCollect(
+    flow: Flow<T>,
+    state: Lifecycle.State = Lifecycle.State.STARTED,
+    body: (T) -> Unit
+){
+    lifecycleScope.launch {
+        this@launchAndCollect.repeatOnLifecycle(state){
+            flow.collect(body)
+        }
+    }
+}
 
 
 

@@ -25,11 +25,7 @@ class DetailFragment: Fragment(R.layout.fragment_detail) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentDetailBinding.bind(view)
         binding.artistDetailToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.state.collect{binding.updateUI(it)}
-            }
-        }
+        viewLifecycleOwner.launchAndCollect(viewModel.state){binding.updateUI(it)}
     }
 
     private fun FragmentDetailBinding.updateUI(state: DetailViewModel.UiState){
