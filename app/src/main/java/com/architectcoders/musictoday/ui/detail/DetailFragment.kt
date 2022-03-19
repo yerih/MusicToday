@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.FragmentDetailBinding
 import com.architectcoders.musictoday.model.*
@@ -14,17 +15,16 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class DetailFragment: Fragment(R.layout.fragment_detail) {
-    companion object{
-        const val ARTIST = "DetailActivity:artist"
-    }
 
+    private val safeArgs: DetailFragmentArgs by navArgs()
     private val viewModel: DetailViewModel by viewModels {
-        DetailViewModelFactory(arguments?.getParcelable<PopularArtists.Artist>(ARTIST)!!)
+        DetailViewModelFactory(safeArgs.artist)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentDetailBinding.bind(view)
+        binding.artistDetailToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.state.collect{binding.updateUI(it)}
@@ -34,9 +34,9 @@ class DetailFragment: Fragment(R.layout.fragment_detail) {
 
     private fun FragmentDetailBinding.updateUI(state: DetailViewModel.UiState){
         state.artistInfo?.let {
-            artistDetailToolbar.title = it.name
             artistDetailSummary.text = it.bio.published
             artistDetailInfo.text = it.bio.summary
+            artistDetailToolbar.title = it.name
         }
         state.popularArtist?.let { artistDetailImage.loadUrl(it.picture_medium) }
     }

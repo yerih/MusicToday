@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.FragmentMainBinding
@@ -45,9 +46,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun navigateTo(artist: PopularArtists.Artist){
-        findNavController().navigate(
-            R.id.action_main_to_detail,
-            bundleOf(DetailFragment.ARTIST to artist)
-        )
+        val action = MainFragmentDirections.actionMainToDetail(artist)
+        findNavController().navigate(action)
     }
 }

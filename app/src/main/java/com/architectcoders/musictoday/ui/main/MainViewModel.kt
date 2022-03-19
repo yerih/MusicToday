@@ -3,14 +3,10 @@ package com.architectcoders.musictoday.ui.main
 import androidx.lifecycle.*
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
-import com.architectcoders.musictoday.model.log
-import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
-import kotlin.math.log2
 
 
 class MainViewModel() : ViewModel() {
@@ -24,9 +20,7 @@ class MainViewModel() : ViewModel() {
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
-    init {
-        refresh()
-    }
+    init { refresh() }
 
     private fun refresh(){
         viewModelScope.launch{

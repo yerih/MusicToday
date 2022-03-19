@@ -22,5 +22,9 @@
         android:id="@+id/detail_dest"
         android:name="com.architectcoders.musictoday.ui.detail.DetailFragment"
         tools:layout="@layout/fragment_detail"
-        android:label="DetailFragment" />
+        android:label="DetailFragment" >
+        <argument
+            android:name="artist"
+            app:argType="com.architectcoders.musictoday.model.PopularArtists$Artist" />
+    </fragment>
 </navigation>

@@ -14,7 +14,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.NavHostActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.MusicToday.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
