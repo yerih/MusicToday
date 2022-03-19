@@ -1,12 +1,16 @@
 package com.architectcoders.musictoday.ui.main
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
 import com.architectcoders.musictoday.model.log
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlin.math.log
+import kotlin.coroutines.coroutineContext
+import kotlin.math.log2
 
 
 class MainViewModel() : ViewModel() {
@@ -17,10 +21,11 @@ class MainViewModel() : ViewModel() {
         val navigateTo: PopularArtists.Artist? = null
     )
 
-    private val _state = MutableLiveData(UiState())
-    val state:LiveData<UiState> get() {
-        if(_state.value?.popularArtists == null) refresh()
-        return _state
+    private val _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state.asStateFlow()
+
+    init {
+        refresh()
     }
 
     private fun refresh(){
@@ -31,8 +36,9 @@ class MainViewModel() : ViewModel() {
     }
 
     fun onArtistClicked(artist: PopularArtists.Artist){
-        _state.value = _state.value?.copy(navigateTo = artist)
+        _state.value = _state.value.copy(navigateTo = artist)
     }
+
 }
 
 @Suppress("UNCHECKED_CAST")

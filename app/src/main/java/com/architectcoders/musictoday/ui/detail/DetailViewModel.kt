@@ -4,6 +4,9 @@ import androidx.lifecycle.*
 import com.architectcoders.musictoday.model.ArtistInfo
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class DetailViewModel(popularArtist: PopularArtists.Artist): ViewModel() {
@@ -13,17 +16,18 @@ class DetailViewModel(popularArtist: PopularArtists.Artist): ViewModel() {
         val artistInfo:    ArtistInfo.Artist? = null
     )
 
-    private val _state = MutableLiveData(UiState(popularArtist))
-    val state: LiveData<UiState> get() {
-        if(_state.value?.artistInfo == null) refresh()
-        return _state
-    }
+    private val _state = MutableStateFlow(UiState(popularArtist))
+    val state: StateFlow<UiState> = _state.asStateFlow()
+
+    init { refresh() }
 
     private fun refresh() {
         viewModelScope.launch {
-            _state.value?.popularArtist?.let {
-                val artistInfo = MusicService.service.getArtistInfo(it.name).artist
-                _state.value = _state.value?.copy(artistInfo = artistInfo)
+            with(_state.value){
+                popularArtist?.let {
+                    val artistInfo = MusicService.service.getArtistInfo(it.name).artist
+                    _state.value = copy(artistInfo = artistInfo)
+                }
             }
         }
     }
