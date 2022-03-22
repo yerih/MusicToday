@@ -14,35 +14,23 @@ class MainViewModel() : ViewModel() {
     data class UiState(
         val loading: Boolean = false,
         val popularArtists: PopularArtists? = null,
-        val navigateTo: PopularArtists.Artist? = null
+        val navigateTo: PopularArtists.Artist? = null,
+        val requestPermissionLocation: Boolean = true
     )
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
-    init { refresh() }
-
-    private fun refresh(){
+    fun onUiReady(){
         viewModelScope.launch{
             _state.value = UiState(loading = true)
             _state.value = UiState(popularArtists = MusicService.service.getPopularArtists())
         }
     }
 
-    fun onArtistClicked(artist: PopularArtists.Artist){
-        _state.value = _state.value.copy(navigateTo = artist)
-    }
-
-    fun onNavigationDone() {
-        _state.value = _state.value.copy(navigateTo = null)
-    }
-
 }
 
 @Suppress("UNCHECKED_CAST")
 class MainViewModelFactory: ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainViewModel() as T
-    }
-
+    override fun <T : ViewModel> create(modelClass: Class<T>): T { return MainViewModel() as T }
 }

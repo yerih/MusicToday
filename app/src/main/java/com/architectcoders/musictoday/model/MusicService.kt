@@ -32,4 +32,6 @@ interface MusicService {
     @GET("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&api_key=$apiKeyLastFm&format=json")
     suspend fun getArtistInfo(@Query("artist") artist: String): ArtistInfo
 
+
+
 }

@@ -17,15 +17,13 @@ import kotlinx.coroutines.launch
 class DetailFragment: Fragment(R.layout.fragment_detail) {
 
     private val safeArgs: DetailFragmentArgs by navArgs()
-    private val viewModel: DetailViewModel by viewModels {
-        DetailViewModelFactory(safeArgs.artist)
-    }
+    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(safeArgs.artist) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentDetailBinding.bind(view)
         binding.artistDetailToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
-        viewLifecycleOwner.launchAndCollect(viewModel.state){binding.updateUI(it)}
+        viewLifecycleOwner.launchAndCollect(viewModel.state){ binding.updateUI(it) }
     }
 
     private fun FragmentDetailBinding.updateUI(state: DetailViewModel.UiState){

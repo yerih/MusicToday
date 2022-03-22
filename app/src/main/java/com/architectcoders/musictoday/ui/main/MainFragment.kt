@@ -26,14 +26,16 @@ import kotlinx.coroutines.launch
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: MainViewModel by viewModels{MainViewModelFactory()}
-    private val adapter = ArtistAdapter{ viewModel.onArtistClicked(it) }
+    private val adapter = ArtistAdapter{ mainState.onMovieClicked(it) }
+
+    private lateinit var mainState: MainState
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentMainBinding.bind(view).apply {
-            recycler.adapter = adapter
-        }
+        val binding = FragmentMainBinding.bind(view).apply { recycler.adapter = adapter }
+        mainState = buildMainState()
         viewLifecycleOwner.launchAndCollect(viewModel.state){ binding.updateUI(it)}
+        mainState.requestLocationPermission { viewModel.onUiReady() }
     }
 
 
@@ -47,12 +49,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }
             }
         }
-        state.navigateTo?.let(::navigateTo)
     }
 
-    private fun navigateTo(artist: PopularArtists.Artist){
-        val action = MainFragmentDirections.actionMainToDetail(artist)
-        findNavController().navigate(action)
-        viewModel.onNavigationDone()
-    }
 }
