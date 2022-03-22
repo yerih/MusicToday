@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
-    private val viewModel: MainViewModel by viewModels{MainViewModelFactory()}
+    private val viewModel: MainViewModel by viewModels{MainViewModelFactory(requireActivity().application)}
     private val adapter = ArtistAdapter{ mainState.onMovieClicked(it) }
 
     private lateinit var mainState: MainState
