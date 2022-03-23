@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.location.Geocoder
 import android.location.Location
+import android.util.Log
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.ui.main.ArtistsByLocation
 import com.google.android.gms.location.LocationServices
@@ -51,7 +52,8 @@ class LocationManager(application: Application) {
 
     private fun Location?.toCountry(): String {
         val addresses = this?.let { geocoder.getFromLocation(latitude, longitude, 1) }
-        return addresses?.firstOrNull()?.countryName ?: DEFAULT_COUNTRY
+        return addresses?.firstOrNull()?.countryName.toString()
+//        return addresses?.firstOrNull()?.countryName ?: DEFAULT_COUNTRY
     }
 }
 
@@ -59,6 +61,7 @@ class LocationManager(application: Application) {
 class LocationHelper(private val app: Application){
     suspend fun getCountryByGPS() : ArtistsByLocation.TopArtists{
         val country = LocationManager(app).findMyCountry()
+        Log.i("TGB", "locationHelper: country $country")
         return MusicService.service.getArtistByLocation(country).topArtists
     }
 }

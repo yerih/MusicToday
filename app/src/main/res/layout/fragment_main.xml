@@ -4,6 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="java.util.List"/>
+        <import type="com.architectcoders.musictoday.model.PopularArtists.Artist"/>
+        <variable
+            name="loading"
+            type="Boolean" />
+        <variable
+            name="artists"
+            type="List&lt;Artist>" />
 
     </data>
 
@@ -31,6 +39,7 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:items="@{artists}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:spanCount="3" />

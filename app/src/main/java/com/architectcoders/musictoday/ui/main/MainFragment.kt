@@ -42,12 +42,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun FragmentMainBinding.updateUI(state: MainViewModel.UiState) {
         //TODO: loader true
         state.popularArtists?.let { it ->
-            adapter.apply {
-                if (artists != it.artists){
-                    artists = it.artists
-                    recycler.adapter = adapter
-                }
-            }
+            adapter.submitList((it.artists.also { adapter.artists = it }))
         }
     }
 
