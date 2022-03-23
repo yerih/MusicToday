@@ -26,7 +26,7 @@ class MainState(
 ) {
 
 
-    fun onMovieClicked(artist: PopularArtists.Artist){
+    fun onArtistClicked(artist: PopularArtists.Artist){
         val action = MainFragmentDirections.actionMainToDetail(artist)
         navController.navigate(action)
     }

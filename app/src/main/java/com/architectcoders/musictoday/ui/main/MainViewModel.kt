@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
+import com.architectcoders.musictoday.model.log
 import com.architectcoders.musictoday.ui.common.LocationHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +28,16 @@ class MainViewModel(private val locationHelper: LocationHelper) : ViewModel() {
     fun onUiReady(){
         viewModelScope.launch{
             _state.value = UiState(loading = true)
-            _state.value = UiState(artistsByLocation = locationHelper.getCountryByGPS())
+            _state.value = _state.value.copy(artistsByLocation = locationHelper.getCountryByGPS())
+            _state.value.artistsByLocation?.artists?.run {
+                val artistList = mutableListOf<PopularArtists.Artist>()
+                take(10).forEach { artist ->
+                    val result = MusicService.service.getSearchArtist(artist = artist.name)
+                    val artist2 = PopularArtists.Artist(name = artist.name, picture_medium = result.artists[0].picture_medium)
+                    artistList.add(artist2)
+                }
+                _state.value = _state.value.copy(popularArtists = PopularArtists(artistList, artistList.size))
+            }
 //            _state.value = UiState(popularArtists = MusicService.service.getPopularArtists())
         }
     }

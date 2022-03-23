@@ -1,6 +1,7 @@
 package com.architectcoders.musictoday.model
 
 
+import com.architectcoders.musictoday.ui.main.ArtistSearch
 import com.architectcoders.musictoday.ui.main.ArtistsByLocation
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
@@ -35,5 +36,8 @@ interface MusicService {
 
     @GET("http://ws.audioscrobbler.com/2.0/?method=geo.gettopartists&api_key=$apiKeyLastFm&format=json")
     suspend fun getArtistByLocation(@Query("country") country: String): ArtistsByLocation
+
+    @GET("https://api.deezer.com/search/artist?")
+    suspend fun getSearchArtist(@Query("q") artist: String) : ArtistSearch
 
 }
