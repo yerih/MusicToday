@@ -15,11 +15,9 @@ class ArtistAdapter(
     private val listener: (PopularArtists.Artist) -> Unit
 ) : ListAdapter<PopularArtists.Artist, ArtistAdapter.ViewHolder>(basicDiffUtil { old, new -> old.id == new.id }) {
 
-    var artists = listOf<PopularArtists.Artist>()
-
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val bi = ItemArtistBinding.bind(view)
-        fun bind(artist: PopularArtists.Artist) = with(bi) {
+        private val binding = ItemArtistBinding.bind(view)
+        fun bind(artist: PopularArtists.Artist) = with(binding) {
             artistTitle.text = artist.name
             artistCover.loadUrl(artist.picture_medium)
         }
@@ -30,12 +28,10 @@ class ArtistAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val artist = artists[position]
+        val artist = getItem(position)//artists[position]
         holder.bind(artist)
         holder.itemView.setOnClickListener { listener(artist) }
     }
-
-    override fun getItemCount(): Int = artists.size
 }
 
 

@@ -27,23 +27,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: MainViewModel by viewModels{MainViewModelFactory(requireActivity().application)}
     private val adapter = ArtistAdapter{ mainState.onArtistClicked(it) }
-
     private lateinit var mainState: MainState
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentMainBinding.bind(view).apply { recycler.adapter = adapter }
         mainState = buildMainState()
-        viewLifecycleOwner.launchAndCollect(viewModel.state){ binding.updateUI(it)}
-        mainState.requestLocationPermission { viewModel.onUiReady() }
-    }
-
-
-    private fun FragmentMainBinding.updateUI(state: MainViewModel.UiState) {
-        //TODO: loader true
-        state.popularArtists?.let { it ->
-            adapter.submitList((it.artists.also { adapter.artists = it }))
+        viewLifecycleOwner.launchAndCollect(viewModel.state){
+            binding.loading = it.loading
+            binding.artists = it.popularArtists?.artists
         }
+        mainState.requestLocationPermission { viewModel.onUiReady() }
     }
 
 }
