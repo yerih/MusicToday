@@ -29,7 +29,6 @@ class MainViewModel(private val locationHelper: LocationHelper) : ViewModel() {
         viewModelScope.launch{
             _state.value = UiState(loading = true)
             _state.value = _state.value.copy(artistsByLocation = locationHelper.getCountryByGPS())
-            log("onUiReady: searchArtist")
             _state.value.artistsByLocation?.artists?.run {
                 val artistList = mutableListOf<PopularArtists.Artist>()
                 take(10).forEach { artist ->
@@ -39,7 +38,6 @@ class MainViewModel(private val locationHelper: LocationHelper) : ViewModel() {
                 }
                 _state.value = _state.value.copy(popularArtists = PopularArtists(artistList, artistList.size))
             }
-//            _state.value = UiState(popularArtists = MusicService.service.getPopularArtists())
         }
     }
 

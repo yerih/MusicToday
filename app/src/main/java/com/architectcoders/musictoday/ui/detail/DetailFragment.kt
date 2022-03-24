@@ -22,8 +22,10 @@ class DetailFragment: Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentDetailBinding.bind(view)
+        val detailState = buildDetailState()
         binding.artistDetailToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
-        viewLifecycleOwner.launchAndCollect(viewModel.state){ binding.updateUI(it) }
+        viewLifecycleOwner.launchAndCollect(viewModel.state){ binding.artist = it.artistInfo }
+        detailState.onArtistInfoRequested(safeArgs.artist){ viewModel.onUiReady(it) }
     }
 
     private fun FragmentDetailBinding.updateUI(state: DetailViewModel.UiState){

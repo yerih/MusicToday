@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.LayoutRes
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DiffUtil
@@ -29,6 +30,7 @@ fun Context.log(value: String = "") {
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = true): View =
     LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 
+@BindingAdapter("loadUrl")
 fun ImageView.loadUrl(url: String){
     Glide.with(context).load(url).into(this)
 }

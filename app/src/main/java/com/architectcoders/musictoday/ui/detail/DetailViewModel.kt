@@ -19,18 +19,10 @@ class DetailViewModel(popularArtist: PopularArtists.Artist): ViewModel() {
     private val _state = MutableStateFlow(UiState(popularArtist))
     val state: StateFlow<UiState> = _state.asStateFlow()
 
-    init { refresh() }
-
-    private fun refresh() {
-        viewModelScope.launch {
-            with(_state.value){
-                popularArtist?.let {
-                    val artistInfo = MusicService.service.getArtistInfo(it.name).artist
-                    _state.value = copy(artistInfo = artistInfo)
-                }
-            }
-        }
+    fun onUiReady(artistInfo: ArtistInfo.Artist?){
+        _state.value = _state.value.copy(artistInfo = artistInfo)
     }
+
 }
 
 @Suppress("UNCHECKED_CAST")
