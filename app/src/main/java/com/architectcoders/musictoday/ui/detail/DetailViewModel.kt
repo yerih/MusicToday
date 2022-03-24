@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.architectcoders.musictoday.model.ArtistInfo
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
+import com.architectcoders.musictoday.model.log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

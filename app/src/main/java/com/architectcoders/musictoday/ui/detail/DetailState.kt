@@ -16,7 +16,8 @@ class DetailState(
 
     fun onArtistInfoRequested(requestedArtist: PopularArtists.Artist, onGetArtistInfo: (ArtistInfo.Artist) -> Unit){
         scope.launch {
-            val artistInfo = MusicService.service.getArtistInfo(requestedArtist.name).artist
+            val artistInfo = MusicService.service.getArtistInfo(requestedArtist.name)
+                .artist
             onGetArtistInfo(artistInfo)
         }
     }

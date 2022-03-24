@@ -8,7 +8,9 @@
         <variable
             name="artist"
             type="Artist" />
-
+        <variable
+            name="urlImage"
+            type="String" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -36,7 +38,7 @@
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
-                    app:loadUrl="@{artist.image.get(0).text}"
+                    app:loadUrl="@{urlImage}"
                     app:layout_collapseMode="parallax"
                     tools:src="@mipmap/ic_launcher" />
 
