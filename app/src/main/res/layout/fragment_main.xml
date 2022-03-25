@@ -5,13 +5,13 @@
 
     <data>
         <import type="java.util.List"/>
-        <import type="com.architectcoders.musictoday.model.PopularArtists.Artist"/>
+        <import type="com.architectcoders.musictoday.database.ArtistEntity"/>
         <variable
             name="loading"
             type="Boolean" />
         <variable
             name="artists"
-            type="List&lt;Artist>" />
+            type="List&lt;ArtistEntity>" />
 
     </data>
 

@@ -26,7 +26,7 @@ class DetailFragment: Fragment(R.layout.fragment_detail) {
         binding.artistDetailToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         viewLifecycleOwner.launchAndCollect(viewModel.state){
             binding.artist = it.artistInfo
-            binding.urlImage = safeArgs.artist.picture_medium
+            binding.urlImage = safeArgs.artist.imageUrl
         }
         detailState.onArtistInfoRequested(safeArgs.artist){ viewModel.onUiReady(it) }
     }

@@ -25,6 +25,6 @@
         android:label="DetailFragment" >
         <argument
             android:name="artist"
-            app:argType="com.architectcoders.musictoday.model.PopularArtists$Artist" />
+            app:argType="com.architectcoders.musictoday.database.ArtistEntity" />
     </fragment>
 </navigation>

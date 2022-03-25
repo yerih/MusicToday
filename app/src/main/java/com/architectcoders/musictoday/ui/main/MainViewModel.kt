@@ -2,6 +2,9 @@ package com.architectcoders.musictoday.ui.main
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.architectcoders.musictoday.ArtistRemoteLocalDataSource
+import com.architectcoders.musictoday.ArtistRepository
+import com.architectcoders.musictoday.database.ArtistEntity
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
 import com.architectcoders.musictoday.model.log
@@ -9,14 +12,19 @@ import com.architectcoders.musictoday.ui.common.LocationHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
-class MainViewModel(private val locationHelper: LocationHelper) : ViewModel() {
+class MainViewModel(
+//    private val locationHelper: LocationHelper,
+    private val artistRepository: ArtistRepository
+) : ViewModel() {
 
     data class UiState(
         val loading: Boolean = false,
-        val popularArtists: PopularArtists? = null,
+//        val popularArtists: PopularArtists? = null,
+        val artists: List<ArtistEntity>? = null,
         val artistsByLocation: ArtistsByLocation.TopArtists? = null,
         val navigateTo: PopularArtists.Artist? = null,
         val requestPermissionLocation: Boolean = true
@@ -25,26 +33,40 @@ class MainViewModel(private val locationHelper: LocationHelper) : ViewModel() {
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
-    fun onUiReady(){
-        viewModelScope.launch{
-            _state.value = UiState(loading = true)
-            _state.value = _state.value.copy(artistsByLocation = locationHelper.getCountryByGPS())
-            _state.value.artistsByLocation?.artists?.run {
-                val artistList = mutableListOf<PopularArtists.Artist>()
-                take(10).forEach { artist ->
-                    val result = MusicService.service.getSearchArtist(artist = artist.name)
-                    val artist2 = PopularArtists.Artist(name = artist.name, picture_medium = result.artists[0].picture_medium)
-                    artistList.add(artist2)
-                }
-                _state.value = _state.value.copy(popularArtists = PopularArtists(artistList, artistList.size))
-            }
+    init {
+        viewModelScope.launch {
+            artistRepository.artists.collect { _state.value = UiState(artists = it) }
         }
+    }
+
+    fun onUiReady(){
+        viewModelScope.launch {
+            _state.value = UiState(loading = true)
+            artistRepository.getArtistsFromRepository()
+//            _state.value = UiState(artistsByLocation = artistRepository.getArtistsFromRepository())
+        }
+//        viewModelScope.launch{
+//            _state.value = UiState(loading = true)
+//            _state.value = _state.value.copy(artistsByLocation = locationHelper.getCountryByGPS())
+//            _state.value.artistsByLocation?.artists?.run {
+//                val artistList = mutableListOf<PopularArtists.Artist>()
+//                take(10).forEach { artist ->
+//                    val result = MusicService.service.getSearchArtist(artist = artist.name)
+//                    val artist2 = PopularArtists.Artist(name = artist.name, picture_medium = result.artists[0].picture_medium)
+//                    artistList.add(artist2)
+//                }
+//                _state.value = _state.value.copy(popularArtists = PopularArtists(artistList, artistList.size))
+//            }
+//        }
     }
 
 }
 
 @Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(private val app: Application): ViewModelProvider.Factory {
+class MainViewModelFactory(
+//    private val app: Application,
+    private val repository: ArtistRepository
+): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T
-    { return MainViewModel(LocationHelper(app)) as T }
+    { return MainViewModel(repository) as T }
 }

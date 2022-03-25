@@ -59,9 +59,6 @@ class LocationManager(application: Application) {
 
 
 class LocationHelper(private val app: Application){
-    suspend fun getCountryByGPS() : ArtistsByLocation.TopArtists{
-        val country = LocationManager(app).findMyCountry()
-        return MusicService.service.getArtistByLocation(country).topArtists
-    }
+    suspend fun getCountryByGPS() : String = LocationManager(app).findMyCountry()
 }
 

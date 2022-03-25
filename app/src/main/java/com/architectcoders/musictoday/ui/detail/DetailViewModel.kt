@@ -1,6 +1,7 @@
 package com.architectcoders.musictoday.ui.detail
 
 import androidx.lifecycle.*
+import com.architectcoders.musictoday.database.ArtistEntity
 import com.architectcoders.musictoday.model.ArtistInfo
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
@@ -10,14 +11,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class DetailViewModel(popularArtist: PopularArtists.Artist): ViewModel() {
+class DetailViewModel(artist: ArtistEntity): ViewModel() {
 
     data class UiState(
-        val popularArtist: PopularArtists.Artist? = null,
+        val artist:        ArtistEntity? = null,
         val artistInfo:    ArtistInfo.Artist? = null
     )
 
-    private val _state = MutableStateFlow(UiState(popularArtist))
+    private val _state = MutableStateFlow(UiState(artist))
     val state: StateFlow<UiState> = _state.asStateFlow()
 
     fun onUiReady(artistInfo: ArtistInfo.Artist?){
@@ -27,7 +28,7 @@ class DetailViewModel(popularArtist: PopularArtists.Artist): ViewModel() {
 }
 
 @Suppress("UNCHECKED_CAST")
-class DetailViewModelFactory(private val artist: PopularArtists.Artist) :
+class DetailViewModelFactory(private val artist: ArtistEntity) :
 ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return DetailViewModel(artist) as T
