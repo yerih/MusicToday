@@ -11,6 +11,7 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DiffUtil
+import com.architectcoders.musictoday.App
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -31,8 +32,8 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = true): 
     LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 
 @BindingAdapter("loadUrl")
-fun ImageView.loadUrl(url: String){
-    Glide.with(context).load(url).into(this)
+fun ImageView.loadUrl(url: String?){
+    url?.let { Glide.with(context).load(url).into(this) }
 }
 
 
@@ -79,7 +80,7 @@ fun <T> LifecycleOwner.launchAndCollect(
     }
 }
 
-
+val Context.app: App get() = applicationContext as App
 
 
 
