@@ -31,13 +31,4 @@ class DetailFragment: Fragment(R.layout.fragment_detail) {
         detailState.onArtistInfoRequested(safeArgs.artist){ viewModel.onUiReady(it) }
     }
 
-    private fun FragmentDetailBinding.updateUI(state: DetailViewModel.UiState){
-        state.artistInfo?.let {
-            artistDetailSummary.text = it.bio.published
-            artistDetailInfo.text = it.bio.summary
-            artistDetailToolbar.title = it.name
-        }
-        state.popularArtist?.let { artistDetailImage.loadUrl(it.picture_medium) }
-    }
-
 }
