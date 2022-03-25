@@ -23,7 +23,6 @@ class ArtistRepository(app: App) {
     }
 }
 
-
 class ArtistLocalDataSource(private val artistDao: ArtistDao) {
     val artists: Flow<List<ArtistEntity>> = artistDao.getAll()
     fun isEmpty(): Boolean = artistDao.artistCount() == 0
@@ -44,6 +43,6 @@ fun PopularArtists.Artist.toLocalArtist(): ArtistEntity = ArtistEntity(
     name = name,
     biography = "",
     publishingDate = "",
-    imageUrl = "",
+    imageUrl = picture_medium,
 )
 
