@@ -9,9 +9,10 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ArtistEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val name: String,
-    val biography: String,
-    val publishingDate: String,
-    val imageUrl: String
+    val id: Int = 0,
+    val name: String = "",
+    val biography: String = "",
+    val publishingDate: String = "",
+    val imageUrl: String = "",
+    val favorite: Boolean = false
 ) : Parcelable

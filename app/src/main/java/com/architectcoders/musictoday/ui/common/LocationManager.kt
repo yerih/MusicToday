@@ -5,10 +5,12 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationRequest
 import android.util.Log
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.ui.main.ArtistsByLocation
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.CancellationToken
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
@@ -17,16 +19,16 @@ interface LocationDataSource {
     suspend fun findLastLocation(): Location?
 }
 
-class PlayServicesLocationDataSource(application: Application) : LocationDataSource {
-    private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(application)
+class PlayServicesLocationDataSource(app: Application) : LocationDataSource {
+    private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(app)
 
     @SuppressLint("MissingPermission")
     override suspend fun findLastLocation(): Location? =
-        suspendCancellableCoroutine { continuation ->
-            fusedLocationClient.lastLocation
-                .addOnCompleteListener {
-                    continuation.resume(it.result)
-                }
+        suspendCancellableCoroutine {
+                continuation ->
+            fusedLocationClient.lastLocation.addOnCompleteListener {
+                continuation.resume(it.result)
+            }
         }
 }
 
@@ -52,13 +54,14 @@ class LocationManager(application: Application) {
 
     private fun Location?.toCountry(): String {
         val addresses = this?.let { geocoder.getFromLocation(latitude, longitude, 1) }
+        Log.i("TGB", "toCountry: ${addresses?.first()?.countryName}")
         return addresses?.firstOrNull()?.countryName.toString()
 //        return addresses?.firstOrNull()?.countryName ?: DEFAULT_COUNTRY
     }
 }
 
 
-class LocationHelper(private val app: Application){
-    suspend fun getCountryByGPS() : String = LocationManager(app).findMyCountry()
+class LocationHelper(private val app: Application) {
+    suspend fun getCountryByGPS(): String = LocationManager(app).findMyCountry()
 }
 

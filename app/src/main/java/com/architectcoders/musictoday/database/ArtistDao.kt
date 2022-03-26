@@ -12,13 +12,13 @@ interface ArtistDao{
     fun findById(id: Int) : Flow<ArtistEntity>
 
     @Query("SELECT COUNT(id) FROM ArtistEntity")
-    fun artistCount(): Int
+    suspend fun artistCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertArtists(artists: List<ArtistEntity>)
+    suspend fun insertArtists(artists: List<ArtistEntity>)
 
     @Update
-    fun updateArtist(artist: ArtistEntity)
+    suspend fun updateArtist(artist: ArtistEntity)
 }
 
 

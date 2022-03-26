@@ -6,6 +6,7 @@ import com.architectcoders.musictoday.database.ArtistEntity
 import com.architectcoders.musictoday.model.ArtistInfo
 import com.architectcoders.musictoday.model.MusicService
 import com.architectcoders.musictoday.model.PopularArtists
+import com.architectcoders.musictoday.toLocalArtist
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -15,11 +16,11 @@ class DetailState(
     private val scope: CoroutineScope,
 ) {
 
-    fun onArtistInfoRequested(requestedArtist: ArtistEntity, onGetArtistInfo: (ArtistInfo.Artist) -> Unit){
+    fun onArtistInfoRequested(requestedArtist: ArtistEntity, onGetArtistInfo: (ArtistEntity) -> Unit){
         scope.launch {
-            val artistInfo = MusicService.service.getArtistInfo(requestedArtist.name)
-                .artist
-            onGetArtistInfo(artistInfo)
+            val artist = MusicService.service.getArtistInfo(requestedArtist.name).artist
+                .toLocalArtist(requestedArtist.imageUrl)
+            onGetArtistInfo(artist)
         }
     }
 

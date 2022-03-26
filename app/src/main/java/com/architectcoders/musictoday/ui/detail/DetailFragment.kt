@@ -24,10 +24,8 @@ class DetailFragment: Fragment(R.layout.fragment_detail) {
         val binding = FragmentDetailBinding.bind(view)
         val detailState = buildDetailState()
         binding.artistDetailToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
-        viewLifecycleOwner.launchAndCollect(viewModel.state){
-            binding.artist = it.artistInfo
-            binding.urlImage = safeArgs.artist.imageUrl
-        }
+        binding.btnFavorite.setOnClickListener { viewModel.onFavoriteClicked() }
+        viewLifecycleOwner.launchAndCollect(viewModel.state){ binding.artist = it.artist }
         detailState.onArtistInfoRequested(safeArgs.artist){ viewModel.onUiReady(it) }
     }
 

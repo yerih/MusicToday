@@ -2,7 +2,6 @@ package com.architectcoders.musictoday.ui.main
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.architectcoders.musictoday.ArtistRemoteLocalDataSource
 import com.architectcoders.musictoday.ArtistRepository
 import com.architectcoders.musictoday.database.ArtistEntity
 import com.architectcoders.musictoday.model.MusicService
@@ -23,7 +22,6 @@ class MainViewModel(
 
     data class UiState(
         val loading: Boolean = false,
-//        val popularArtists: PopularArtists? = null,
         val artists: List<ArtistEntity>? = null,
         val artistsByLocation: ArtistsByLocation.TopArtists? = null,
         val navigateTo: PopularArtists.Artist? = null,
@@ -42,7 +40,7 @@ class MainViewModel(
     fun onUiReady(){
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            artistRepository.getArtistsFromRepository()
+            artistRepository.getArtists()
 //            _state.value = UiState(artistsByLocation = artistRepository.getArtistsFromRepository())
         }
 //        viewModelScope.launch{
