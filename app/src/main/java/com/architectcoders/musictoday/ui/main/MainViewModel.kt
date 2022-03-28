@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 
 
 class MainViewModel(
-//    private val locationHelper: LocationHelper,
     private val artistRepository: ArtistRepository
 ) : ViewModel() {
 
@@ -41,30 +40,14 @@ class MainViewModel(
         viewModelScope.launch {
             _state.value = UiState(loading = true)
             artistRepository.getArtists()
-//            _state.value = UiState(artistsByLocation = artistRepository.getArtistsFromRepository())
         }
-//        viewModelScope.launch{
-//            _state.value = UiState(loading = true)
-//            _state.value = _state.value.copy(artistsByLocation = locationHelper.getCountryByGPS())
-//            _state.value.artistsByLocation?.artists?.run {
-//                val artistList = mutableListOf<PopularArtists.Artist>()
-//                take(10).forEach { artist ->
-//                    val result = MusicService.service.getSearchArtist(artist = artist.name)
-//                    val artist2 = PopularArtists.Artist(name = artist.name, picture_medium = result.artists[0].picture_medium)
-//                    artistList.add(artist2)
-//                }
-//                _state.value = _state.value.copy(popularArtists = PopularArtists(artistList, artistList.size))
-//            }
-//        }
     }
 
 }
 
 @Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(
-//    private val app: Application,
-    private val repository: ArtistRepository
-): ViewModelProvider.Factory {
+class MainViewModelFactory(private val repository: ArtistRepository):
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T
     { return MainViewModel(repository) as T }
 }
