@@ -60,16 +60,11 @@ class ArtistLocalDataSource(private val artistDao: ArtistDao) {
 
 class ArtistRemoteDataSource(private val locationHelper: LocationHelper) {
 
-    suspend fun getPopularArtists(): List<ArtistEntity> {
-        val country = locationHelper.getCountryByGPS()
-        val result = MusicService.service.getArtistByLocation(country).topArtists
-
-        return if (result != null)
-            MusicService.service.getArtistByLocation(country).topArtists.artists
-                .take(10).map { it.toLocalArtist() }
-        else
-            MusicService.service.getPopularArtists().artists.toLocalArtists()
-    }
+    suspend fun getPopularArtists(): List<ArtistEntity> =
+        locationHelper.getCountryByGPS()?.let { country ->
+        MusicService.service.getArtistByLocation(country).topArtists
+            .artists.take(10).map { artistMap -> artistMap.toLocalArtist() }
+    } ?: MusicService.service.getPopularArtists().artists.toLocalArtists()
 
     suspend fun getArtistInfo(name: String) = MusicService.service.getArtistInfo(name)
 

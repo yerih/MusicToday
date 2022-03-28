@@ -45,23 +45,24 @@ class LocationManager(application: Application) {
     )
     private val geocoder = Geocoder(application)
 
-    suspend fun findMyCountry(): String = findLastLocation().toCountry()
+    suspend fun findMyCountry(): String? = findLastLocation().toCountry()
 
     private suspend fun findLastLocation(): Location? {
         val success = coarsePermissionChecker.check()
         return if (success) locationDataSource.findLastLocation() else null
     }
 
-    private fun Location?.toCountry(): String {
+    private fun Location?.toCountry(): String? {
         val addresses = this?.let { geocoder.getFromLocation(latitude, longitude, 1) }
-        Log.i("TGB", "toCountry: ${addresses?.first()?.countryName}")
-        return addresses?.firstOrNull()?.countryName.toString()
+//        Log.i("TGB", "toCountry: ${addresses?.first()?.countryName}")
+//        return addresses?.firstOrNull()?.countryName
+        return addresses?.firstOrNull()?.countryName
 //        return addresses?.firstOrNull()?.countryName ?: DEFAULT_COUNTRY
     }
 }
 
 
 class LocationHelper(private val app: Application) {
-    suspend fun getCountryByGPS(): String = LocationManager(app).findMyCountry()
+    suspend fun getCountryByGPS(): String? = LocationManager(app).findMyCountry()
 }
 

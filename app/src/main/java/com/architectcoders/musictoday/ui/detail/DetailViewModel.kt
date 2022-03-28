@@ -34,10 +34,6 @@ class DetailViewModel(
     fun onFavoriteClicked() {
         viewModelScope.launch {
             _state.value.artist?.let { repository.favoriteToggle(it) }
-//            repository.findById(artistId).collect {
-//                repository.favoriteToggle(it)
-//                _state.value = _state.value.copy(artist = it.copy(favorite = true))
-//            }
         }
     }
 
