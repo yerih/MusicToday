@@ -55,7 +55,6 @@ class ArtistLocalDataSource(private val artistDao: ArtistDao) {
     fun findById(id: Int): Flow<ArtistEntity> = artistDao.findById(id)
     suspend fun isEmpty(): Boolean = artistDao.artistCount() == 0
     suspend fun save(artists: List<ArtistEntity>) = artistDao.insertArtists(artists)
-    suspend fun updateArtist(artist: ArtistEntity) = artistDao.updateArtist(artist)
 }
 
 class ArtistRemoteDataSource(private val locationHelper: LocationHelper) {
@@ -73,19 +72,6 @@ class ArtistRemoteDataSource(private val locationHelper: LocationHelper) {
 fun List<PopularArtists.Artist>.toLocalArtists(): List<ArtistEntity> = map { it.toLocalArtist() }
 
 fun ArtistsByLocation.TopArtists.Artist.toLocalArtist(): ArtistEntity = ArtistEntity(name = name)
-
-fun ArtistInfo.Artist.toLocalArtist(): ArtistEntity = ArtistEntity(
-    name = name,
-    biography = bio.summary,
-    publishingDate = bio.published,
-)
-
-fun ArtistInfo.Artist.toLocalArtist(imageUrl: String): ArtistEntity = ArtistEntity(
-    name = name,
-    biography = bio.summary,
-    publishingDate = bio.published,
-    imageUrl = imageUrl
-)
 
 fun PopularArtists.Artist.toLocalArtist(): ArtistEntity = ArtistEntity(
     id,
