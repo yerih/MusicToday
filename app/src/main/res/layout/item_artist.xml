@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="com.architectcoders.musictoday.database.ArtistEntity"/>
+        <variable
+            name="artist"
+            type="ArtistEntity" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -26,13 +30,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <com.architectcoders.musictoday.ui.common.AspectRatioImageView
-                    android:id="@+id/artist_cover"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    app:ratio="1.5"
-                    tools:src="@tools:sample/backgrounds/scenic" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.architectcoders.musictoday.ui.common.AspectRatioImageView
+                        android:id="@+id/artist_cover"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        app:loadUrl="@{artist.imageUrl}"
+                        app:ratio="1.5"
+                        tools:src="@tools:sample/backgrounds/scenic" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|end"
+                        android:layout_margin="4dp"
+                        android:src="@drawable/ic_favorite_true"
+                        app:visible="@{artist.favorite}" />
+
+                </FrameLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -53,6 +73,7 @@
                     android:padding="6dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
                     android:textColor="@color/white"
+                    android:text="@{artist.name}"
                     tools:text="@tools:sample/lorem" />
             </androidx.cardview.widget.CardView>
 

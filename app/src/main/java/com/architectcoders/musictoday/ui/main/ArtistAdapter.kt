@@ -18,10 +18,7 @@ class ArtistAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemArtistBinding.bind(view)
-        fun bind(artist: ArtistEntity) = with(binding) {
-            artistTitle.text = artist.name
-            artistCover.loadUrl(artist.imageUrl)
-        }
+        fun bind(artist: ArtistEntity){ binding.artist = artist }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
