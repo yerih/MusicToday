@@ -12,6 +12,9 @@
         <variable
             name="artists"
             type="List&lt;ArtistEntity>" />
+        <variable
+            name="error"
+            type="String" />
 
     </data>
 
@@ -42,7 +45,17 @@
             app:items="@{artists}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:spanCount="3" />
+            app:spanCount="3"
+            app:visible="@{error == null}"/>
+
+        <TextView
+            android:id="@+id/errorTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:textColor="?attr/colorError"
+            android:text="@{error}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

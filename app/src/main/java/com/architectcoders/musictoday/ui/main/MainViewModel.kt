@@ -4,14 +4,9 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.architectcoders.musictoday.ArtistRepository
 import com.architectcoders.musictoday.database.ArtistEntity
-import com.architectcoders.musictoday.model.MusicService
-import com.architectcoders.musictoday.model.PopularArtists
-import com.architectcoders.musictoday.model.log
+import com.architectcoders.musictoday.model.*
 import com.architectcoders.musictoday.ui.common.LocationHelper
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
@@ -24,7 +19,8 @@ class MainViewModel(
         val artists: List<ArtistEntity>? = null,
         val artistsByLocation: ArtistsByLocation.TopArtists? = null,
         val navigateTo: PopularArtists.Artist? = null,
-        val requestPermissionLocation: Boolean = true
+        val requestPermissionLocation: Boolean = true,
+        val error: Error? = null
     )
 
     private val _state = MutableStateFlow(UiState())
@@ -32,14 +28,17 @@ class MainViewModel(
 
     init {
         viewModelScope.launch {
-            artistRepository.artists.collect { _state.value = UiState(artists = it) }
+            artistRepository.artists
+                .catch { cause -> _state.update { it.copy(error = cause.toError()) } }
+                .collect { _state.value = UiState(artists = it) }
         }
     }
 
     fun onUiReady(){
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            artistRepository.getArtists()
+            val error = artistRepository.getArtists()
+            _state.update { it.copy(error = error) }
         }
     }
 

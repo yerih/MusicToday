@@ -1,6 +1,5 @@
 package com.architectcoders.musictoday.ui.main
 
-import android.app.Application
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -10,6 +9,7 @@ import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.FragmentMainBinding
 import com.architectcoders.musictoday.model.app
 import com.architectcoders.musictoday.model.launchAndCollect
+import com.architectcoders.musictoday.model.log
 
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -27,6 +27,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         viewLifecycleOwner.launchAndCollect(viewModel.state){
             binding.loading = it.loading
             binding.artists = it.artists
+            binding.error = it.error?.let(mainState::errorToString)
         }
         mainState.requestLocationPermission { viewModel.onUiReady() }
     }

@@ -4,29 +4,31 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.architectcoders.musictoday.ArtistRepository
 import com.architectcoders.musictoday.database.ArtistEntity
+import com.architectcoders.musictoday.model.Error
 import com.architectcoders.musictoday.model.log
+import com.architectcoders.musictoday.model.toError
 import com.architectcoders.musictoday.ui.main.MainViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val artistId: Int,
     private val repository: ArtistRepository
-): ViewModel() {
+) : ViewModel() {
 
-    data class UiState(val artist: ArtistEntity? = null)
+    data class UiState(val artist: ArtistEntity? = null, val error: Error? = null)
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            repository.findById(artistId).collect {
-                repository.getArtistInfo(it)
-                _state.value = UiState(it)
+            repository.findById(artistId).collect { artist ->
+                    val error = repository.getArtistInfo(artist)
+                    error?.let { _state.update { it.copy(error = error) } }
+                        ?: repository.findById(artistId).collect { artistUpdate ->
+                            _state.update { it.copy(artist = artistUpdate) }
+                        }
             }
         }
     }
@@ -41,7 +43,7 @@ class DetailViewModel(
 
 @Suppress("UNCHECKED_CAST")
 class DetailViewModelFactory(private val id: Int, private val repository: ArtistRepository) :
-ViewModelProvider.Factory{
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return DetailViewModel(id, repository) as T
     }

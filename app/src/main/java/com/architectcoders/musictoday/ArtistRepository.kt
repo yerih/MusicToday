@@ -4,9 +4,7 @@ import android.R
 import android.util.Log
 import com.architectcoders.musictoday.database.ArtistDao
 import com.architectcoders.musictoday.database.ArtistEntity
-import com.architectcoders.musictoday.model.ArtistInfo
-import com.architectcoders.musictoday.model.MusicService
-import com.architectcoders.musictoday.model.PopularArtists
+import com.architectcoders.musictoday.model.*
 import com.architectcoders.musictoday.ui.common.LocationHelper
 import com.architectcoders.musictoday.ui.common.LocationManager
 import com.architectcoders.musictoday.ui.main.ArtistsByLocation
@@ -24,14 +22,14 @@ class ArtistRepository(app: App) {
 
     fun findById(id: Int): Flow<ArtistEntity> = localDataSource.findById(id)
 
-    suspend fun getArtists() {
+    suspend fun getArtists(): Error? = tryCall {
         if (localDataSource.isEmpty()) {
             val artists = remoteDataSource.getPopularArtists()
             localDataSource.save(artists)
         }
     }
 
-    suspend fun getArtistInfo(artist: ArtistEntity) {
+    suspend fun getArtistInfo(artist: ArtistEntity): Error? = tryCall {
         if (artist.biography.isEmpty()) {
             val artistInfo = remoteDataSource.getArtistInfo(artist.name).artist
             val artistUpdate = artist.copy(
@@ -43,7 +41,7 @@ class ArtistRepository(app: App) {
         }
     }
 
-    suspend fun favoriteToggle(artist: ArtistEntity){
+    suspend fun favoriteToggle(artist: ArtistEntity): Error? = tryCall {
         val artistUpdate = artist.copy(favorite = !artist.favorite)
         localDataSource.save(listOf(artistUpdate))
     }

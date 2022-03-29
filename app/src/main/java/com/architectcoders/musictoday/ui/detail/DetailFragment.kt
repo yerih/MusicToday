@@ -29,8 +29,10 @@ class DetailFragment: Fragment(R.layout.fragment_detail) {
         val binding = FragmentDetailBinding.bind(view)
         binding.artistDetailToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         binding.btnFavorite.setOnClickListener { viewModel.onFavoriteClicked() }
-        viewLifecycleOwner.launchAndCollect(viewModel.state){ binding.artist = it.artist }
-
+        viewLifecycleOwner.launchAndCollect(viewModel.state){ it ->
+            binding.artist = it.artist
+            binding.error = it.error?.errorToString(requireContext())
+        }
     }
 
 }

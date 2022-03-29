@@ -8,6 +8,9 @@
         <variable
             name="artist"
             type="ArtistEntity" />
+        <variable
+            name="error"
+            type="String" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -27,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 app:contentScrim="?attr/colorPrimary"
+                app:visible="@{error == null}"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:statusBarScrim="?attr/colorPrimaryVariant">
 
@@ -90,9 +94,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
+            app:visible="@{error == null}"
             android:src="@{artist.favorite ? @drawable/ic_favorite_true : @drawable/ic_favorite_false}"
             app:layout_anchor="@id/appBarLayout"
             app:layout_anchorGravity="bottom|end"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:textColor="?attr/colorError"
+            android:text="@{error}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
