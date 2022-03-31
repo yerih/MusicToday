@@ -1,11 +1,10 @@
 package com.architectcoders.musictoday.ui.main
 
 import androidx.lifecycle.*
-import com.architectcoders.musictoday.ArtistRepository
-import com.architectcoders.musictoday.database.ArtistEntity
 import com.architectcoders.musictoday.data.*
-import com.architectcoders.musictoday.domain.GetPopularArtistUseCase
-import com.architectcoders.musictoday.domain.RequestArtistsUseCase
+import com.architectcoders.musictoday.domain.Artist
+import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
+import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -17,7 +16,7 @@ class MainViewModel(
 
     data class UiState(
         val loading: Boolean = false,
-        val artists: List<ArtistEntity>? = null,
+        val artists: List<Artist>? = null,
         val artistsByLocation: ArtistsByLocation.TopArtists? = null,
         val navigateTo: PopularArtists.Artist? = null,
         val requestPermissionLocation: Boolean = true,

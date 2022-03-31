@@ -1,8 +1,9 @@
-package com.architectcoders.musictoday.database
+package com.architectcoders.musictoday.data.database
 
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.architectcoders.musictoday.domain.Artist
 import kotlinx.parcelize.Parcelize
 
 @Entity
@@ -16,3 +17,6 @@ data class ArtistEntity(
     val imageUrl: String = "",
     val favorite: Boolean = false
 ) : Parcelable
+
+fun List<ArtistEntity>.toDomainModel(): List<Artist> = map { it.toDomainModel() }
+fun ArtistEntity.toDomainModel(): Artist = Artist(id, name, biography, publishingDate, imageUrl, favorite)

@@ -9,9 +9,9 @@ import com.architectcoders.musictoday.ArtistRepository
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.FragmentDetailBinding
 import com.architectcoders.musictoday.data.*
-import com.architectcoders.musictoday.domain.FavoriteToggleUseCase
-import com.architectcoders.musictoday.domain.FindArtistByIdUseCase
-import com.architectcoders.musictoday.domain.GetArtistInfoUseCase
+import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
+import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
+import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
 
 
 class DetailFragment: Fragment(R.layout.fragment_detail) {

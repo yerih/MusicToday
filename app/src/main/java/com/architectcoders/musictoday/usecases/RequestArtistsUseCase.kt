@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday.domain
+package com.architectcoders.musictoday.usecases
 
 import com.architectcoders.musictoday.ArtistRepository
 import com.architectcoders.musictoday.data.Error

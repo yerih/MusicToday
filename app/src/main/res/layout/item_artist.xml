@@ -5,10 +5,10 @@
 
     <data>
 
-        <import type="com.architectcoders.musictoday.database.ArtistEntity"/>
+        <import type="com.architectcoders.musictoday.domain.Artist"/>
         <variable
             name="artist"
-            type="ArtistEntity" />
+            type="Artist" />
     </data>
 
     <androidx.cardview.widget.CardView

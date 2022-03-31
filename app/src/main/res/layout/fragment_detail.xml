@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.architectcoders.musictoday.database.ArtistEntity"/>
+        <import type="com.architectcoders.musictoday.domain.Artist"/>
         <variable
             name="artist"
-            type="ArtistEntity" />
+            type="Artist" />
         <variable
             name="error"
             type="String" />

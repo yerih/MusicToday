@@ -1,12 +1,12 @@
 package com.architectcoders.musictoday.ui.detail
 
 import androidx.lifecycle.*
-import com.architectcoders.musictoday.ArtistRepository
-import com.architectcoders.musictoday.database.ArtistEntity
 import com.architectcoders.musictoday.data.Error
-import com.architectcoders.musictoday.domain.FavoriteToggleUseCase
-import com.architectcoders.musictoday.domain.FindArtistByIdUseCase
-import com.architectcoders.musictoday.domain.GetArtistInfoUseCase
+import com.architectcoders.musictoday.data.database.toDomainModel
+import com.architectcoders.musictoday.domain.Artist
+import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
+import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
+import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -17,7 +17,7 @@ class DetailViewModel(
     private val favoriteToggleUseCase: FavoriteToggleUseCase
 ) : ViewModel() {
 
-    data class UiState(val artist: ArtistEntity? = null, val error: Error? = null)
+    data class UiState(val artist: Artist? = null, val error: Error? = null)
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()

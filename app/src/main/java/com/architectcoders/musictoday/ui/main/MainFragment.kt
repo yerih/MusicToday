@@ -9,8 +9,8 @@ import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.FragmentMainBinding
 import com.architectcoders.musictoday.data.app
 import com.architectcoders.musictoday.data.launchAndCollect
-import com.architectcoders.musictoday.domain.GetPopularArtistUseCase
-import com.architectcoders.musictoday.domain.RequestArtistsUseCase
+import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
+import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 
 
 class MainFragment : Fragment(R.layout.fragment_main) {

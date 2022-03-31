@@ -7,8 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.architectcoders.musictoday.R
-import com.architectcoders.musictoday.database.ArtistEntity
 import com.architectcoders.musictoday.data.Error
+import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.ui.common.PermissionRequester
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ class MainState(
 ) {
 
 
-    fun onArtistClicked(artist: ArtistEntity){
+    fun onArtistClicked(artist: Artist){
         val action = MainFragmentDirections.actionMainToDetail(artist.id)
         navController.navigate(action)
     }
