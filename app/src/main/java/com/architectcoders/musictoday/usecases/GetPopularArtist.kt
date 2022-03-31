@@ -1,6 +1,6 @@
 package com.architectcoders.musictoday.usecases
 
-import com.architectcoders.musictoday.ArtistRepository
+import com.architectcoders.musictoday.data.ArtistRepository
 import com.architectcoders.musictoday.domain.Artist
 import kotlinx.coroutines.flow.Flow
 

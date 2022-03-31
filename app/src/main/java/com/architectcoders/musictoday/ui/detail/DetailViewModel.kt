@@ -1,7 +1,7 @@
 package com.architectcoders.musictoday.ui.detail
 
 import androidx.lifecycle.*
-import com.architectcoders.musictoday.data.Error
+import com.architectcoders.musictoday.domain.Error
 import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase

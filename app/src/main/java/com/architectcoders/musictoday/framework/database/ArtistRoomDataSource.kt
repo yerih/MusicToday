@@ -1,10 +1,7 @@
-package com.architectcoders.musictoday.framework.datasource
+package com.architectcoders.musictoday.framework.database
 
-import com.architectcoders.musictoday.data.PopularArtists
+import com.architectcoders.musictoday.framework.server.PopularArtists
 import com.architectcoders.musictoday.data.datasource.ArtistLocalDataSource
-import com.architectcoders.musictoday.framework.database.ArtistDao
-import com.architectcoders.musictoday.framework.database.ArtistEntity
-import com.architectcoders.musictoday.framework.database.toDomainModel
 import com.architectcoders.musictoday.domain.Artist
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

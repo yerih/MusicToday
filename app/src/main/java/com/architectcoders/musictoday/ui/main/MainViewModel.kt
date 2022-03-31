@@ -3,6 +3,9 @@ package com.architectcoders.musictoday.ui.main
 import androidx.lifecycle.*
 import com.architectcoders.musictoday.data.*
 import com.architectcoders.musictoday.domain.Artist
+import com.architectcoders.musictoday.domain.Error
+import com.architectcoders.musictoday.domain.toError
+import com.architectcoders.musictoday.framework.server.PopularArtists
 import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
 import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 import kotlinx.coroutines.flow.*

@@ -5,20 +5,26 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.architectcoders.musictoday.ArtistRepository
+import com.architectcoders.musictoday.data.ArtistRepository
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.FragmentDetailBinding
 import com.architectcoders.musictoday.data.*
+import com.architectcoders.musictoday.framework.database.ArtistRoomDataSource
+import com.architectcoders.musictoday.framework.server.ArtistServerDataSource
+import com.architectcoders.musictoday.ui.common.LocationHelper
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
 import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
+import com.architectcoders.musictoday.domain.errorToString
 
 
 class DetailFragment: Fragment(R.layout.fragment_detail) {
 
     private val safeArgs: DetailFragmentArgs by navArgs()
     private val viewModel: DetailViewModel by viewModels {
-        val repository = ArtistRepository(requireActivity().app)
+        val localDataSource = ArtistRoomDataSource(requireActivity().app.db.ArtistDao())
+        val remoteDataSource = ArtistServerDataSource(LocationHelper(requireActivity().app))
+        val repository = ArtistRepository(localDataSource, remoteDataSource)
         DetailViewModelFactory(safeArgs.artistId,
             FindArtistByIdUseCase(repository),
             GetArtistInfoUseCase(repository),

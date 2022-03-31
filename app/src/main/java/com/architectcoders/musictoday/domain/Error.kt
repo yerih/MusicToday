@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday.data
+package com.architectcoders.musictoday.domain
 
 import android.content.Context
 import com.architectcoders.musictoday.R

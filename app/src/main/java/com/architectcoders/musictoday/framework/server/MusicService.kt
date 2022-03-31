@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday.data
+package com.architectcoders.musictoday.framework.server
 
 
 import com.architectcoders.musictoday.ui.main.ArtistSearch

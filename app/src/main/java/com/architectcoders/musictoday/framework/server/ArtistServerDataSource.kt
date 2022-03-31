@@ -1,7 +1,5 @@
-package com.architectcoders.musictoday.framework.datasource
+package com.architectcoders.musictoday.framework.server
 
-import com.architectcoders.musictoday.data.MusicService
-import com.architectcoders.musictoday.data.PopularArtists
 import com.architectcoders.musictoday.data.datasource.ArtistRemoteDataSource
 import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.ui.common.LocationHelper

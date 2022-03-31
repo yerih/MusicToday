@@ -7,8 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.architectcoders.musictoday.R
-import com.architectcoders.musictoday.data.Error
 import com.architectcoders.musictoday.domain.Artist
+import com.architectcoders.musictoday.domain.Error
 import com.architectcoders.musictoday.ui.common.PermissionRequester
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

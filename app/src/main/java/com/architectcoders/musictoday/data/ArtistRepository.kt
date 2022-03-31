@@ -1,10 +1,10 @@
-package com.architectcoders.musictoday
+package com.architectcoders.musictoday.data
 
-import com.architectcoders.musictoday.data.*
 import com.architectcoders.musictoday.domain.Artist
-import com.architectcoders.musictoday.framework.datasource.ArtistRoomDataSource
-import com.architectcoders.musictoday.framework.datasource.ArtistServerDataSource
-import com.architectcoders.musictoday.ui.common.LocationHelper
+import com.architectcoders.musictoday.domain.tryCall
+import com.architectcoders.musictoday.framework.database.ArtistRoomDataSource
+import com.architectcoders.musictoday.framework.server.ArtistServerDataSource
+import com.architectcoders.musictoday.domain.Error
 import kotlinx.coroutines.flow.Flow
 
 class ArtistRepository(

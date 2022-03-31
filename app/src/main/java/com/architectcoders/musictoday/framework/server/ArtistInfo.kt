@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday.data
+package com.architectcoders.musictoday.framework.server
 
 import com.google.gson.annotations.SerializedName
 
