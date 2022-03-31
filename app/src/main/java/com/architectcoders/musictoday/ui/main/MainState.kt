@@ -8,7 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.database.ArtistEntity
-import com.architectcoders.musictoday.model.Error
+import com.architectcoders.musictoday.data.Error
 import com.architectcoders.musictoday.ui.common.PermissionRequester
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

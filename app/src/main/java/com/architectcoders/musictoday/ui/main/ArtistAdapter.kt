@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.database.ArtistEntity
 import com.architectcoders.musictoday.databinding.ItemArtistBinding
-import com.architectcoders.musictoday.model.PopularArtists
-import com.architectcoders.musictoday.model.basicDiffUtil
-import com.architectcoders.musictoday.model.inflate
-import com.architectcoders.musictoday.model.loadUrl
+import com.architectcoders.musictoday.data.basicDiffUtil
+import com.architectcoders.musictoday.data.inflate
 
 class ArtistAdapter(
     private val listener: (ArtistEntity) -> Unit

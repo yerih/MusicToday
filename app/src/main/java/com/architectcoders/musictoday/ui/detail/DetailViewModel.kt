@@ -1,19 +1,20 @@
 package com.architectcoders.musictoday.ui.detail
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.architectcoders.musictoday.ArtistRepository
 import com.architectcoders.musictoday.database.ArtistEntity
-import com.architectcoders.musictoday.model.Error
-import com.architectcoders.musictoday.model.log
-import com.architectcoders.musictoday.model.toError
-import com.architectcoders.musictoday.ui.main.MainViewModel
+import com.architectcoders.musictoday.data.Error
+import com.architectcoders.musictoday.domain.FavoriteToggleUseCase
+import com.architectcoders.musictoday.domain.FindArtistByIdUseCase
+import com.architectcoders.musictoday.domain.GetArtistInfoUseCase
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val artistId: Int,
-    private val repository: ArtistRepository
+    findArtistByIdUseCase: FindArtistByIdUseCase,
+    getArtistInfoUseCase: GetArtistInfoUseCase,
+    private val favoriteToggleUseCase: FavoriteToggleUseCase
 ) : ViewModel() {
 
     data class UiState(val artist: ArtistEntity? = null, val error: Error? = null)
@@ -23,10 +24,10 @@ class DetailViewModel(
 
     init {
         viewModelScope.launch {
-            repository.findById(artistId).collect { artist ->
-                    val error = repository.getArtistInfo(artist)
+            findArtistByIdUseCase(artistId).collect { artist ->
+                    val error = getArtistInfoUseCase(artist)
                     error?.let { _state.update { it.copy(error = error) } }
-                        ?: repository.findById(artistId).collect { artistUpdate ->
+                        ?: findArtistByIdUseCase(artistId).collect { artistUpdate ->
                             _state.update { it.copy(artist = artistUpdate) }
                         }
             }
@@ -35,17 +36,23 @@ class DetailViewModel(
 
     fun onFavoriteClicked() {
         viewModelScope.launch {
-            _state.value.artist?.let { repository.favoriteToggle(it) }
+            _state.value.artist?.let { favoriteToggleUseCase(it) }
         }
     }
 
 }
 
 @Suppress("UNCHECKED_CAST")
-class DetailViewModelFactory(private val id: Int, private val repository: ArtistRepository) :
-    ViewModelProvider.Factory {
+class DetailViewModelFactory(
+    private val id: Int,
+    private val findArtistByIdUseCase: FindArtistByIdUseCase,
+    private val getArtistInfoUseCase: GetArtistInfoUseCase,
+    private val favoriteToggleUseCase: FavoriteToggleUseCase
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return DetailViewModel(id, repository) as T
+        return DetailViewModel(
+            id,
+            findArtistByIdUseCase, getArtistInfoUseCase, favoriteToggleUseCase) as T
     }
 }
 

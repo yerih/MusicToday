@@ -1,17 +1,11 @@
 package com.architectcoders.musictoday
 
-import android.R
-import android.util.Log
 import com.architectcoders.musictoday.database.ArtistDao
 import com.architectcoders.musictoday.database.ArtistEntity
-import com.architectcoders.musictoday.model.*
+import com.architectcoders.musictoday.data.*
 import com.architectcoders.musictoday.ui.common.LocationHelper
-import com.architectcoders.musictoday.ui.common.LocationManager
 import com.architectcoders.musictoday.ui.main.ArtistsByLocation
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.withContext
 
 class ArtistRepository(app: App) {
 
@@ -22,7 +16,7 @@ class ArtistRepository(app: App) {
 
     fun findById(id: Int): Flow<ArtistEntity> = localDataSource.findById(id)
 
-    suspend fun getArtists(): Error? = tryCall {
+    suspend fun requestArtists(): Error? = tryCall {
         if (localDataSource.isEmpty()) {
             val artists = remoteDataSource.getPopularArtists()
             localDataSource.save(artists)

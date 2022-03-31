@@ -4,7 +4,6 @@ import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.architectcoders.musictoday.database.ArtistEntity
-import com.architectcoders.musictoday.model.PopularArtists
 
 
 @BindingAdapter("items")

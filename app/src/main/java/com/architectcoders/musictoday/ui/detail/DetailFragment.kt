@@ -4,24 +4,26 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.architectcoders.musictoday.ArtistRepository
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.FragmentDetailBinding
-import com.architectcoders.musictoday.model.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import com.architectcoders.musictoday.data.*
+import com.architectcoders.musictoday.domain.FavoriteToggleUseCase
+import com.architectcoders.musictoday.domain.FindArtistByIdUseCase
+import com.architectcoders.musictoday.domain.GetArtistInfoUseCase
 
 
 class DetailFragment: Fragment(R.layout.fragment_detail) {
 
     private val safeArgs: DetailFragmentArgs by navArgs()
     private val viewModel: DetailViewModel by viewModels {
+        val repository = ArtistRepository(requireActivity().app)
         DetailViewModelFactory(safeArgs.artistId,
-            ArtistRepository(requireActivity().app))
+            FindArtistByIdUseCase(repository),
+            GetArtistInfoUseCase(repository),
+            FavoriteToggleUseCase(repository)
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

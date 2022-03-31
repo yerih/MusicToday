@@ -5,12 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationRequest
-import android.util.Log
-import com.architectcoders.musictoday.model.MusicService
-import com.architectcoders.musictoday.ui.main.ArtistsByLocation
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.CancellationToken
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 

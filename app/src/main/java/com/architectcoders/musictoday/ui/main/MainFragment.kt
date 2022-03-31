@@ -7,15 +7,20 @@ import androidx.fragment.app.viewModels
 import com.architectcoders.musictoday.ArtistRepository
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.FragmentMainBinding
-import com.architectcoders.musictoday.model.app
-import com.architectcoders.musictoday.model.launchAndCollect
-import com.architectcoders.musictoday.model.log
+import com.architectcoders.musictoday.data.app
+import com.architectcoders.musictoday.data.launchAndCollect
+import com.architectcoders.musictoday.domain.GetPopularArtistUseCase
+import com.architectcoders.musictoday.domain.RequestArtistsUseCase
 
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: MainViewModel by viewModels{
-        MainViewModelFactory(ArtistRepository(requireActivity().app))
+        val repository = ArtistRepository(requireActivity().app)
+        MainViewModelFactory(
+            GetPopularArtistUseCase(repository),
+            RequestArtistsUseCase(repository)
+        )
     }
     private val adapter = ArtistAdapter{ mainState.onArtistClicked(it) }
     private lateinit var mainState: MainState

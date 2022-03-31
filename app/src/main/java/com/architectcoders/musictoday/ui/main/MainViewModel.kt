@@ -1,17 +1,18 @@
 package com.architectcoders.musictoday.ui.main
 
-import android.app.Application
 import androidx.lifecycle.*
 import com.architectcoders.musictoday.ArtistRepository
 import com.architectcoders.musictoday.database.ArtistEntity
-import com.architectcoders.musictoday.model.*
-import com.architectcoders.musictoday.ui.common.LocationHelper
+import com.architectcoders.musictoday.data.*
+import com.architectcoders.musictoday.domain.GetPopularArtistUseCase
+import com.architectcoders.musictoday.domain.RequestArtistsUseCase
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
 class MainViewModel(
-    private val artistRepository: ArtistRepository
+    getPopularArtistUseCase: GetPopularArtistUseCase,
+    private val requestArtistsUseCase: RequestArtistsUseCase
 ) : ViewModel() {
 
     data class UiState(
@@ -28,7 +29,7 @@ class MainViewModel(
 
     init {
         viewModelScope.launch {
-            artistRepository.artists
+            getPopularArtistUseCase()
                 .catch { cause -> _state.update { it.copy(error = cause.toError()) } }
                 .collect { _state.value = UiState(artists = it) }
         }
@@ -37,7 +38,7 @@ class MainViewModel(
     fun onUiReady(){
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            val error = artistRepository.getArtists()
+            val error = requestArtistsUseCase()
             _state.update { it.copy(error = error) }
         }
     }
@@ -45,8 +46,11 @@ class MainViewModel(
 }
 
 @Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(private val repository: ArtistRepository):
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T
-    { return MainViewModel(repository) as T }
+class MainViewModelFactory(
+    private val getPopularArtistUseCase: GetPopularArtistUseCase,
+    private val requestArtistsUseCase: RequestArtistsUseCase
+): ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return MainViewModel(getPopularArtistUseCase, requestArtistsUseCase) as T
+    }
 }
