@@ -9,6 +9,9 @@ import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.FragmentMainBinding
 import com.architectcoders.musictoday.data.app
 import com.architectcoders.musictoday.data.launchAndCollect
+import com.architectcoders.musictoday.framework.datasource.ArtistRoomDataSource
+import com.architectcoders.musictoday.framework.datasource.ArtistServerDataSource
+import com.architectcoders.musictoday.ui.common.LocationHelper
 import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
 import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 
@@ -16,7 +19,9 @@ import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: MainViewModel by viewModels{
-        val repository = ArtistRepository(requireActivity().app)
+        val localDataSource = ArtistRoomDataSource(requireActivity().app.db.ArtistDao())
+        val remoteDataSource = ArtistServerDataSource(LocationHelper(requireActivity().app))
+        val repository = ArtistRepository(localDataSource, remoteDataSource)
         MainViewModelFactory(
             GetPopularArtistUseCase(repository),
             RequestArtistsUseCase(repository)
