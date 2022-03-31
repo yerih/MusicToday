@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday.data.database
+package com.architectcoders.musictoday.framework.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

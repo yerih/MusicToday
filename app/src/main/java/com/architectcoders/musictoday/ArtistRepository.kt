@@ -1,16 +1,16 @@
 package com.architectcoders.musictoday
 
 import com.architectcoders.musictoday.data.*
-import com.architectcoders.musictoday.data.datasource.ArtistLocalDataSource
-import com.architectcoders.musictoday.data.datasource.ArtistRemoteDataSource
 import com.architectcoders.musictoday.domain.Artist
+import com.architectcoders.musictoday.framework.datasource.ArtistRoomDataSource
+import com.architectcoders.musictoday.framework.datasource.ArtistServerDataSource
 import com.architectcoders.musictoday.ui.common.LocationHelper
 import kotlinx.coroutines.flow.Flow
 
 class ArtistRepository(app: App) {
 
-    private val localDataSource = ArtistLocalDataSource(app.db.ArtistDao())
-    private val remoteDataSource = ArtistRemoteDataSource(LocationHelper(app))
+    private val localDataSource = ArtistRoomDataSource(app.db.ArtistDao())
+    private val remoteDataSource = ArtistServerDataSource(LocationHelper(app))
 
     val artists = localDataSource.artists
 

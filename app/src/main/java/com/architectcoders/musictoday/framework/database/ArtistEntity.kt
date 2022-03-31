@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday.data.database
+package com.architectcoders.musictoday.framework.database
 
 import android.os.Parcelable
 import androidx.room.Entity

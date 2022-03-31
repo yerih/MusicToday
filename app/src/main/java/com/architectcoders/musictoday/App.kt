@@ -2,7 +2,7 @@ package com.architectcoders.musictoday
 
 import android.app.Application
 import androidx.room.Room
-import com.architectcoders.musictoday.data.database.ArtistDatabase
+import com.architectcoders.musictoday.framework.database.ArtistDatabase
 
 class App: Application(){
 
