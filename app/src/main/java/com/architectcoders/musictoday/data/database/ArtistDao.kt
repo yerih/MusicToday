@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday.framework.database
+package com.architectcoders.musictoday.data.database
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow

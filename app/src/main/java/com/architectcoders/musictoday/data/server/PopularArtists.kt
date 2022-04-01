@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday.framework.server
+package com.architectcoders.musictoday.data.server
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

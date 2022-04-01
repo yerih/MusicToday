@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday.data
+package com.architectcoders.musictoday.ui.common
 
 import android.content.Context
 import android.util.Log
@@ -12,11 +12,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DiffUtil
 import com.architectcoders.musictoday.App
+import com.architectcoders.musictoday.R
+import com.architectcoders.musictoday.domain.Error
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+
+
+
 
 fun Context.log(label: String = "TGB", value: String = "value?"){
     Log.i(label, value)
@@ -35,13 +39,6 @@ fun ImageView.loadUrl(url: String?){
 }
 
 
-fun CoroutineScope.log(label: String, value: String){
-    Log.i(label, value)
-}
-
-fun CoroutineScope.log(value: String){
-    log("TGB", value)
-}
 
 fun ViewModel.log(value: String){
     Log.i("TGB", value)
@@ -78,7 +75,24 @@ fun <T> LifecycleOwner.launchAndCollect(
     }
 }
 
+
 val Context.app: App get() = applicationContext as App
+
+fun Context.errorToString(error: Error): String = when(error){
+    Error.Connectivity -> getString(R.string.connectivity_error)
+    is Error.Server -> getString(R.string.server_error)
+    is Error.Unknown -> getString(R.string.unknown_error)
+}
+
+
+fun CoroutineScope.log(label: String, value: String){
+    Log.i(label, value)
+}
+
+fun CoroutineScope.log(value: String){
+    log("TGB", value)
+}
+
 
 
 

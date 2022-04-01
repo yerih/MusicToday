@@ -2,10 +2,8 @@ package com.architectcoders.musictoday.ui.main
 
 import androidx.lifecycle.*
 import com.architectcoders.musictoday.data.*
-import com.architectcoders.musictoday.domain.Artist
-import com.architectcoders.musictoday.domain.Error
-import com.architectcoders.musictoday.domain.toError
-import com.architectcoders.musictoday.framework.server.PopularArtists
+import com.architectcoders.musictoday.data.server.PopularArtists
+import com.architectcoders.musictoday.data.server.toError
 import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
 import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 import kotlinx.coroutines.flow.*
@@ -19,11 +17,11 @@ class MainViewModel(
 
     data class UiState(
         val loading: Boolean = false,
-        val artists: List<Artist>? = null,
+        val artists: List<com.architectcoders.musictoday.domain.Artist>? = null,
         val artistsByLocation: ArtistsByLocation.TopArtists? = null,
         val navigateTo: PopularArtists.Artist? = null,
         val requestPermissionLocation: Boolean = true,
-        val error: Error? = null
+        val error: com.architectcoders.musictoday.domain.Error? = null
     )
 
     private val _state = MutableStateFlow(UiState())

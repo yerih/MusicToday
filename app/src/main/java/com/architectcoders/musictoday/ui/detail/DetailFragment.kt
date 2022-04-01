@@ -8,14 +8,15 @@ import androidx.navigation.fragment.navArgs
 import com.architectcoders.musictoday.data.ArtistRepository
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.FragmentDetailBinding
-import com.architectcoders.musictoday.data.*
-import com.architectcoders.musictoday.framework.database.ArtistRoomDataSource
-import com.architectcoders.musictoday.framework.server.ArtistServerDataSource
+import com.architectcoders.musictoday.data.database.ArtistRoomDataSource
+import com.architectcoders.musictoday.data.server.ArtistServerDataSource
+import com.architectcoders.musictoday.data.server.errorToString
 import com.architectcoders.musictoday.ui.common.LocationHelper
+import com.architectcoders.musictoday.ui.common.app
+import com.architectcoders.musictoday.ui.common.launchAndCollect
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
 import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
-import com.architectcoders.musictoday.domain.errorToString
 
 
 class DetailFragment: Fragment(R.layout.fragment_detail) {

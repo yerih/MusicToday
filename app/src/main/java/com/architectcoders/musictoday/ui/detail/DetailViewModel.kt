@@ -1,11 +1,13 @@
 package com.architectcoders.musictoday.ui.detail
 
 import androidx.lifecycle.*
-import com.architectcoders.musictoday.domain.Error
 import com.architectcoders.musictoday.domain.Artist
+import com.architectcoders.musictoday.domain.Error
+import com.architectcoders.musictoday.ui.common.log
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
 import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -24,11 +26,14 @@ class DetailViewModel(
     init {
         viewModelScope.launch {
             findArtistByIdUseCase(artistId).collect { artist ->
-                    val error = getArtistInfoUseCase(artist)
-                    error?.let { _state.update { it.copy(error = error) } }
-                        ?: findArtistByIdUseCase(artistId).collect { artistUpdate ->
+                    val result = getArtistInfoUseCase(artist)
+                    if(result != null) { _state.update { it.copy(error = result) } }
+                    else{
+                        findArtistByIdUseCase(artistId).collect { artistUpdate ->
+                            log("hola", "update = ${artistUpdate.publishingDate}")
                             _state.update { it.copy(artist = artistUpdate) }
                         }
+                    }
             }
         }
     }

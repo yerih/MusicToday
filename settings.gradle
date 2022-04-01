@@ -8,3 +8,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MusicToday"
 include ':app'
+include ':domain'
+include ':usecases'
+include ':data'

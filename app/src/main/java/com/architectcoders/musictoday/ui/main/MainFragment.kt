@@ -7,11 +7,11 @@ import androidx.fragment.app.viewModels
 import com.architectcoders.musictoday.data.ArtistRepository
 import com.architectcoders.musictoday.R
 import com.architectcoders.musictoday.databinding.FragmentMainBinding
-import com.architectcoders.musictoday.data.app
-import com.architectcoders.musictoday.data.launchAndCollect
-import com.architectcoders.musictoday.framework.database.ArtistRoomDataSource
-import com.architectcoders.musictoday.framework.server.ArtistServerDataSource
+import com.architectcoders.musictoday.data.database.ArtistRoomDataSource
+import com.architectcoders.musictoday.data.server.ArtistServerDataSource
 import com.architectcoders.musictoday.ui.common.LocationHelper
+import com.architectcoders.musictoday.ui.common.app
+import com.architectcoders.musictoday.ui.common.launchAndCollect
 import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
 import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 
