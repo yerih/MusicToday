@@ -19,12 +19,17 @@ class ArtistServerDataSource(private val locationHelper: LocationHelper) : Artis
         } ?: MusicService.service.getPopularArtists().artists.toDomainModel()
     }
 
-    override suspend fun getArtistInfo(name: String): Either<Error, Artist> = tryCall {
-        MusicService.service.getArtistInfo(name).artist.toDomainModel()
+    override suspend fun getArtistInfo(artist: Artist): Either<Error, Artist> = tryCall {
+        MusicService.service.getArtistInfo(artist.name).artist.toDomainModel(artist)
     }
 
 }
 
+private fun ArtistInfo.Artist.toDomainModel(artist: Artist): Artist = artist.copy(
+    name = name,
+    biography = bio.summary,
+    publishingDate = bio.published,
+)
 private fun ArtistInfo.Artist.toDomainModel(): Artist = Artist(
     name = name,
     biography = bio.summary,

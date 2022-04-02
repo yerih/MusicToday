@@ -7,5 +7,5 @@ import com.architectcoders.musictoday.domain.Error
 
 interface ArtistRemoteDataSource {
     suspend fun getPopularArtists(): Either<Error, List<Artist>>
-    suspend fun getArtistInfo(name: String): Either<Error, Artist>
+    suspend fun getArtistInfo(artist: Artist): Either<Error, Artist>
 }

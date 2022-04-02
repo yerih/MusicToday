@@ -26,21 +26,14 @@ class DetailViewModel(
 
     init {
         viewModelScope.launch {
-            findArtistByIdUseCase(artistId).distinctUntilChanged().collect { artist ->
+            findArtistByIdUseCase(artistId).collect { artist ->
                 val result = getArtistInfoUseCase(artist)
                 result?.let { _state.update { it.copy(error = result) } }
                     ?: findArtistByIdUseCase(artistId).collect { artistUpdate ->
-                        log("hola", "update = ${artist.publishingDate}")
                         _state.update { it.copy(artist = artistUpdate) }
                     }
             }
         }
-//        viewModelScope.launch {
-//            findArtistByIdUseCase(artistId).distinctUntilChanged().collect{
-//                log("hola", "update ${it.publishingDate}")
-//            }
-//        }
-
     }
 
     fun onFavoriteClicked() {
