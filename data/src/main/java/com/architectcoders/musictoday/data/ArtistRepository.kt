@@ -26,12 +26,15 @@ class ArtistRepository(
 
     suspend fun getArtistInfo(artist: Artist): Error? {
         if (artist.biography.isEmpty()) {
+            println("hola: arg: name= ${artist.name}, publis= ${artist.publishingDate}, img= ${artist.imageUrl}")
             val artistInfo = remoteDataSource.getArtistInfo(artist.name)
             artistInfo.fold(
                 { return it },
                 {
-                    println("hola ${it.name} ${it.publishingDate}")
-                    localDataSource.save(listOf(it))
+                    val artistUpdate = artist.copy(biography = it.biography, publishingDate = it.publishingDate)
+                    println("hola: name= ${artistUpdate.name}, publis= ${artistUpdate.publishingDate}, img= ${artistUpdate.imageUrl}")
+//                    println("hola: name= ${it.name}, publis= ${it.publishingDate}, img= ${it.imageUrl}")
+                    localDataSource.save(listOf(artistUpdate))
                 }
             )
         }

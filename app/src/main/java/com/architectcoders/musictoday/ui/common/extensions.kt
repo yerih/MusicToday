@@ -41,6 +41,10 @@ fun ImageView.loadUrl(url: String?){
 
 
 fun ViewModel.log(value: String){
+    log("TGB", value)
+}
+
+fun ViewModel.log(label: String, value: String){
     Log.i("TGB", value)
 }
 

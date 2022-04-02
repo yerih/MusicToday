@@ -7,6 +7,7 @@ import com.architectcoders.musictoday.ui.common.log
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
 import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -25,17 +26,21 @@ class DetailViewModel(
 
     init {
         viewModelScope.launch {
-            findArtistByIdUseCase(artistId).collect { artist ->
-                    val result = getArtistInfoUseCase(artist)
-                    if(result != null) { _state.update { it.copy(error = result) } }
-                    else{
-                        findArtistByIdUseCase(artistId).collect { artistUpdate ->
-                            log("hola", "update = ${artistUpdate.publishingDate}")
-                            _state.update { it.copy(artist = artistUpdate) }
-                        }
+            findArtistByIdUseCase(artistId).distinctUntilChanged().collect { artist ->
+                val result = getArtistInfoUseCase(artist)
+                result?.let { _state.update { it.copy(error = result) } }
+                    ?: findArtistByIdUseCase(artistId).collect { artistUpdate ->
+                        log("hola", "update = ${artist.publishingDate}")
+                        _state.update { it.copy(artist = artistUpdate) }
                     }
             }
         }
+//        viewModelScope.launch {
+//            findArtistByIdUseCase(artistId).distinctUntilChanged().collect{
+//                log("hola", "update ${it.publishingDate}")
+//            }
+//        }
+
     }
 
     fun onFavoriteClicked() {
