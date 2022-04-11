@@ -6,11 +6,13 @@ import com.architectcoders.musictoday.data.server.PopularArtists
 import com.architectcoders.musictoday.data.server.toError
 import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
 import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class MainViewModel(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     getPopularArtistUseCase: GetPopularArtistUseCase,
     private val requestArtistsUseCase: RequestArtistsUseCase
 ) : ViewModel() {
@@ -45,12 +47,3 @@ class MainViewModel(
 
 }
 
-@Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(
-    private val getPopularArtistUseCase: GetPopularArtistUseCase,
-    private val requestArtistsUseCase: RequestArtistsUseCase
-): ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainViewModel(getPopularArtistUseCase, requestArtistsUseCase) as T
-    }
-}

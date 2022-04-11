@@ -7,6 +7,7 @@ import android.location.Geocoder
 import android.location.Location
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.suspendCancellableCoroutine
+import javax.inject.Inject
 import kotlin.coroutines.resume
 
 
@@ -57,7 +58,7 @@ class LocationManager(application: Application) {
 }
 
 
-class LocationHelper(private val app: Application) {
+class LocationHelper @Inject constructor(private val app: Application) {
     suspend fun getCountryByGPS(): String? = LocationManager(app).findMyCountry()
 }
 

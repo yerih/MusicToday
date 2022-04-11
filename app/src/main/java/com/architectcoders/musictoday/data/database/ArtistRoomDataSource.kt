@@ -7,10 +7,10 @@ import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.domain.Error
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 
-
-class ArtistRoomDataSource(private val artistDao: ArtistDao) : ArtistLocalDataSource {
+class ArtistRoomDataSource @Inject constructor(private val artistDao: ArtistDao) : ArtistLocalDataSource {
 
     override val artists: Flow<List<Artist>> = artistDao.getAll().map { it.toDomainModel() }
 

@@ -17,21 +17,13 @@ import com.architectcoders.musictoday.ui.common.launchAndCollect
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
 import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class DetailFragment: Fragment(R.layout.fragment_detail) {
 
     private val safeArgs: DetailFragmentArgs by navArgs()
-    private val viewModel: DetailViewModel by viewModels {
-        val localDataSource = ArtistRoomDataSource(requireActivity().app.db.ArtistDao())
-        val remoteDataSource = ArtistServerDataSource(LocationHelper(requireActivity().app))
-        val repository = ArtistRepository(localDataSource, remoteDataSource)
-        DetailViewModelFactory(safeArgs.artistId,
-            FindArtistByIdUseCase(repository),
-            GetArtistInfoUseCase(repository),
-            FavoriteToggleUseCase(repository)
-        )
-    }
+    private val viewModel: DetailViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

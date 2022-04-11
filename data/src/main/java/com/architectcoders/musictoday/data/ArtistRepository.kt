@@ -5,10 +5,10 @@ import com.architectcoders.musictoday.data.datasource.ArtistRemoteDataSource
 import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.domain.Error
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 
-
-class ArtistRepository(
+class ArtistRepository @Inject constructor(
     private val localDataSource: ArtistLocalDataSource,
     private val remoteDataSource: ArtistRemoteDataSource
 ) {

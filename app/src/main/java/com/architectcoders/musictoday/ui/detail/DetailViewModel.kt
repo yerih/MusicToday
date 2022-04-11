@@ -7,20 +7,24 @@ import com.architectcoders.musictoday.ui.common.log
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
 import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel(
-    private val artistId: Int,
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     findArtistByIdUseCase: FindArtistByIdUseCase,
     getArtistInfoUseCase: GetArtistInfoUseCase,
     private val favoriteToggleUseCase: FavoriteToggleUseCase
 ) : ViewModel() {
 
-    data class UiState(val artist: Artist? = null, val error: Error? = null)
+    private val artistId = DetailFragmentArgs.fromSavedStateHandle(savedStateHandle).artistId
 
+    data class UiState(val artist: Artist? = null, val error: Error? = null)
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
@@ -44,18 +48,5 @@ class DetailViewModel(
 
 }
 
-@Suppress("UNCHECKED_CAST")
-class DetailViewModelFactory(
-    private val id: Int,
-    private val findArtistByIdUseCase: FindArtistByIdUseCase,
-    private val getArtistInfoUseCase: GetArtistInfoUseCase,
-    private val favoriteToggleUseCase: FavoriteToggleUseCase
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return DetailViewModel(
-            id,
-            findArtistByIdUseCase, getArtistInfoUseCase, favoriteToggleUseCase) as T
-    }
-}
 
 

@@ -14,19 +14,12 @@ import com.architectcoders.musictoday.ui.common.app
 import com.architectcoders.musictoday.ui.common.launchAndCollect
 import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
 import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 
-    private val viewModel: MainViewModel by viewModels{
-        val localDataSource = ArtistRoomDataSource(requireActivity().app.db.ArtistDao())
-        val remoteDataSource = ArtistServerDataSource(LocationHelper(requireActivity().app))
-        val repository = ArtistRepository(localDataSource, remoteDataSource)
-        MainViewModelFactory(
-            GetPopularArtistUseCase(repository),
-            RequestArtistsUseCase(repository)
-        )
-    }
+    private val viewModel: MainViewModel by viewModels()
     private val adapter = ArtistAdapter{ mainState.onArtistClicked(it) }
     private lateinit var mainState: MainState
 

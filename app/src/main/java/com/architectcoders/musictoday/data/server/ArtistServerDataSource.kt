@@ -6,10 +6,10 @@ import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.domain.Error
 import com.architectcoders.musictoday.ui.common.LocationHelper
 import com.architectcoders.musictoday.ui.main.ArtistsByLocation
+import javax.inject.Inject
 
 
-
-class ArtistServerDataSource(private val locationHelper: LocationHelper) : ArtistRemoteDataSource {
+class ArtistServerDataSource @Inject constructor(private val locationHelper: LocationHelper) : ArtistRemoteDataSource {
 
     override suspend fun getPopularArtists(): Either<Error, List<Artist>> = tryCall {
         locationHelper.getCountryByGPS()?.let { country ->
