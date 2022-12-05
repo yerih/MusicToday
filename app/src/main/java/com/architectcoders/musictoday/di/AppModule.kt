@@ -34,7 +34,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMovieDao(db: ArtistDatabase) = db.ArtistDao()
+    fun provideArtistDao(db: ArtistDatabase) = db.ArtistDao()
 
 }
 
