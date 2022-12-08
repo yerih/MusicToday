@@ -3,9 +3,7 @@ package com.architectcoders.musictoday.data
 import com.architectcoders.musictoday.data.datasource.ArtistLocalDataSource
 import com.architectcoders.musictoday.data.datasource.ArtistRemoteDataSource
 import com.architectcoders.musictoday.domain.Artist
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
@@ -13,9 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
+import org.mockito.kotlin.*
 
 
 @RunWith(MockitoJUnitRunner::class)
@@ -58,6 +54,20 @@ class ArtistRepositoryTest{
 
         //ASSERT
         Assert.assertNull(result)
+    }
+
+    @Test
+    fun `Change favorite field on unfavorite artist`(): Unit = runBlocking {
+        val artist = sampleArtist.copy(favorite = false)
+        artistRepository.favoriteToggle(artist)
+        verify(localDataSource).save(argThat { get(0).favorite })
+    }
+
+    @Test
+    fun `Change favorite field on favorite artist`(): Unit = runBlocking {
+        val artist = sampleArtist.copy(favorite = true)
+        artistRepository.favoriteToggle(artist)
+        verify(localDataSource).save(argThat { !get(0).favorite })
     }
 }
 
