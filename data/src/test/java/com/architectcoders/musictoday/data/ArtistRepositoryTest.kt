@@ -69,6 +69,14 @@ class ArtistRepositoryTest{
         artistRepository.favoriteToggle(artist)
         verify(localDataSource).save(argThat { !get(0).favorite })
     }
+
+    @Test
+    fun `Find artist by Id and return it`(): Unit = runBlocking {
+        val artist = flowOf(sampleArtist.copy(id = 555))
+        whenever(localDataSource.findById(555)).thenReturn(artist)
+        val result = artistRepository.findById(555)
+        Assert.assertEquals(artist, result)
+    }
 }
 
 private val sampleArtist = Artist(
