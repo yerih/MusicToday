@@ -4,6 +4,8 @@ package com.architectcoders.musictoday.data.server
 import com.architectcoders.musictoday.ui.main.ArtistSearch
 import com.architectcoders.musictoday.ui.main.ArtistsByLocation
 import com.google.gson.GsonBuilder
+import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -16,11 +18,13 @@ interface MusicService {
     companion object{
         private const val urlLastFm = "http://ws.audioscrobbler.com/2.0/"
         private const val apiKeyLastFm = "7aa4aa6843767418d5fe6a88aea85321"//"03ebd6204944f82b3a5a51c2b3309ecf"
+        private val okHttpClient = OkHttpClient.Builder().addInterceptor(OkHttpProfilerInterceptor()).build()
 
         private val gson = GsonBuilder().setLenient().create()
 
         private val builder = Retrofit.Builder()
             .baseUrl(urlLastFm)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 

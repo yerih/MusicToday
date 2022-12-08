@@ -62,6 +62,7 @@ dependencies {
     implementation "com.google.code.gson:gson:$retrofit2Version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit2Version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit2Version"
+    implementation 'com.localebro:okhttpprofiler:1.0.8'
 
     //Room
     def roomVersion = "2.4.2"
