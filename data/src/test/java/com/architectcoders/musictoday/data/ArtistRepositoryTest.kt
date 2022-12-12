@@ -1,5 +1,6 @@
 package com.architectcoders.musictoday.data
 
+import arrow.core.right
 import com.architectcoders.musictoday.data.datasource.ArtistLocalDataSource
 import com.architectcoders.musictoday.data.datasource.ArtistRemoteDataSource
 import com.architectcoders.musictoday.domain.Artist
@@ -71,12 +72,37 @@ class ArtistRepositoryTest{
     }
 
     @Test
+    fun `favorite field is updated in local data source`(): Unit = runBlocking {
+        val artist = sampleArtist.copy(id = 555)
+        artistRepository.favoriteToggle(artist)
+        verify(localDataSource).save(argThat { get(0).id == 555 })
+    }
+
+    @Test
     fun `Find artist by Id and return it`(): Unit = runBlocking {
         val artist = flowOf(sampleArtist.copy(id = 555))
         whenever(localDataSource.findById(555)).thenReturn(artist)
         val result = artistRepository.findById(555)
         Assert.assertEquals(artist, result)
     }
+
+    @Test
+    fun `Artists are saved on local data source when list is empty`(): Unit = runBlocking {
+        val netArtists = listOf(sampleArtist.copy(2))
+        whenever(localDataSource.isEmpty()).thenReturn(true)
+        whenever(remoteDataSource.getPopularArtists()).thenReturn(netArtists.right())
+
+        artistRepository.requestArtists()
+        verify(localDataSource).save(netArtists)
+    }
+
+//    @Test
+//    fun `Get artist top list when location is not available`(): Unit = runBlocking{
+//        val netArtist = listOf(sampleArtist.copy(123))
+//        val remoteDataSource: ArtistRemoteDataSource = mock()
+//        whenever(localDataSource.isEmpty()).thenReturn(true)
+//        whenever(remoteDataSource.getPopularArtists()).thenReturn(netArtists.right())
+//    }
 }
 
 private val sampleArtist = Artist(
@@ -86,4 +112,5 @@ private val sampleArtist = Artist(
     publishingDate = "2022-10-10",
     imageUrl = "https://e-cdns-images.dzcdn.net/images/artist/61cb20fc86e37eac43834dc6e7484e1b/500x500-000000-80-0-0.jpg",
 )
+
 
