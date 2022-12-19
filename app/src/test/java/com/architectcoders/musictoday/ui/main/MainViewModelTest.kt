@@ -8,10 +8,7 @@ import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Assert
 import org.junit.Assert.*
@@ -20,6 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
 @ExperimentalCoroutinesApi
@@ -54,6 +52,19 @@ class MainViewModelTest {
         vm.state.test{
             assertEquals(UiState(), awaitItem())
             assertEquals(UiState(artists = artists), awaitItem())
+            cancel()
+        }
+    }
+
+    @Test
+    fun `Progress is shown when request is executing and hidden when request is finished`() = runTest {
+        vm.onUiReady()
+        vm.state.test {
+            assertEquals(UiState(), awaitItem())
+            assertEquals(UiState(artists = artists, loading = false), awaitItem())
+            assertEquals(UiState(loading = true), awaitItem())
+            assertEquals(UiState(loading = false), awaitItem())
+            cancel()
         }
     }
 }
