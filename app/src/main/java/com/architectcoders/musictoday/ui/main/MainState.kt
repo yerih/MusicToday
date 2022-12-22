@@ -30,7 +30,7 @@ class MainState(
 ) {
 
 
-    fun onArtistClicked(artist: com.architectcoders.musictoday.domain.Artist){
+    fun onArtistClicked(artist: Artist){
         val action = MainFragmentDirections.actionMainToDetail(artist.id)
         navController.navigate(action)
     }

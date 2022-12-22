@@ -67,4 +67,11 @@ class MainViewModelTest {
             cancel()
         }
     }
+
+    @Test
+    fun `Check if artist request is invoked`() = runTest {
+        vm.onUiReady()
+        runCurrent()
+        verify(requestArtistUseCase).invoke()
+    }
 }

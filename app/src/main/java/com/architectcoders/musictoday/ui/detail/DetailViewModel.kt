@@ -1,6 +1,7 @@
 package com.architectcoders.musictoday.ui.detail
 
 import androidx.lifecycle.*
+import com.architectcoders.musictoday.di.ArtistId
 import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.domain.Error
 import com.architectcoders.musictoday.ui.common.log
@@ -16,13 +17,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+    @ArtistId artistId: Int,
     findArtistByIdUseCase: FindArtistByIdUseCase,
     getArtistInfoUseCase: GetArtistInfoUseCase,
     private val favoriteToggleUseCase: FavoriteToggleUseCase
 ) : ViewModel() {
 
-    private val artistId = DetailFragmentArgs.fromSavedStateHandle(savedStateHandle).artistId
 
     data class UiState(val artist: Artist? = null, val error: Error? = null)
     private val _state = MutableStateFlow(UiState())
