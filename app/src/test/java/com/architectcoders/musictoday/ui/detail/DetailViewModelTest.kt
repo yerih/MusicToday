@@ -53,6 +53,7 @@ class DetailViewModelTest{
         vm.state.test {
             assertEquals(UiState(), awaitItem())
             assertEquals(UiState(artist = artist), awaitItem())
+            cancel()
         }
     }
 
