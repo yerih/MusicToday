@@ -1,9 +1,11 @@
 package com.architectcoders.musictoday.ui.detail
 
 import androidx.lifecycle.*
+import arrow.core.right
 import com.architectcoders.musictoday.di.ArtistId
 import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.domain.Error
+import com.architectcoders.musictoday.sampleArtist
 import com.architectcoders.musictoday.ui.common.log
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
@@ -40,10 +42,8 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun onFavoriteClicked() {
-        viewModelScope.launch {
-            _state.value.artist?.let { favoriteToggleUseCase(it) }
-        }
+    fun onFavoriteClicked() = viewModelScope.launch {
+        _state.value.artist?.let { artist -> _state.update { it.copy(error = favoriteToggleUseCase(artist)) } }
     }
 
 }

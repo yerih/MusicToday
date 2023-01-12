@@ -96,13 +96,6 @@ class ArtistRepositoryTest{
         verify(localDataSource).save(netArtists)
     }
 
-//    @Test
-//    fun `Get artist top list when location is not available`(): Unit = runBlocking{
-//        val netArtist = listOf(sampleArtist.copy(123))
-//        val remoteDataSource: ArtistRemoteDataSource = mock()
-//        whenever(localDataSource.isEmpty()).thenReturn(true)
-//        whenever(remoteDataSource.getPopularArtists()).thenReturn(netArtists.right())
-//    }
 }
 
 private val sampleArtist = Artist(
