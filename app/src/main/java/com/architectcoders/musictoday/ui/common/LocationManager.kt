@@ -13,6 +13,7 @@ import kotlin.coroutines.resume
 
 interface LocationDataSource {
     suspend fun findLastLocation(): Location?
+    suspend fun getCountryByGPS(): String?
 }
 
 class PlayServicesLocationDataSource(app: Application) : LocationDataSource {
@@ -26,6 +27,9 @@ class PlayServicesLocationDataSource(app: Application) : LocationDataSource {
                 continuation.resume(it.result)
             }
         }
+
+    override suspend fun getCountryByGPS(): String? = null
+
 }
 
 class LocationManager(application: Application) {
@@ -43,22 +47,20 @@ class LocationManager(application: Application) {
 
     suspend fun findMyCountry(): String? = findLastLocation().toCountry()
 
-    private suspend fun findLastLocation(): Location? {
+    suspend fun findLastLocation(): Location? {
         val success = coarsePermissionChecker.check()
         return if (success) locationDataSource.findLastLocation() else null
     }
 
     private fun Location?.toCountry(): String? {
         val addresses = this?.let { geocoder.getFromLocation(latitude, longitude, 1) }
-//        Log.i("TGB", "toCountry: ${addresses?.first()?.countryName}")
-//        return addresses?.firstOrNull()?.countryName
         return addresses?.firstOrNull()?.countryName
-//        return addresses?.firstOrNull()?.countryName ?: DEFAULT_COUNTRY
     }
 }
 
 
-class LocationHelper @Inject constructor(private val app: Application) {
-    suspend fun getCountryByGPS(): String? = LocationManager(app).findMyCountry()
+class LocationHelper @Inject constructor(private val app: Application) : LocationDataSource{
+    override suspend fun getCountryByGPS(): String? = LocationManager(app).findMyCountry()
+    override suspend fun findLastLocation(): Location? = LocationManager(app).findLastLocation()
 }
 

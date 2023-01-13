@@ -1,10 +1,7 @@
 package com.architectcoders.musictoday.ui.main
 
 import app.cash.turbine.test
-import com.architectcoders.musictoday.FakeLocalDataSource
-import com.architectcoders.musictoday.FakeRemoteDataSource
-import com.architectcoders.musictoday.buildArtistRepository
-import com.architectcoders.musictoday.data.ArtistRepository
+import com.architectcoders.appTestShared.buildArtistRepository
 import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.sampleArtist
 import com.architectcoders.musictoday.ui.main.MainViewModel.*
@@ -12,7 +9,6 @@ import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
 import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Assert.*

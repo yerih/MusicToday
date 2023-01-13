@@ -1,0 +1,36 @@
+package com.architectcoders.appTestShared
+
+import com.architectcoders.musictoday.data.ArtistRepository
+import com.architectcoders.musictoday.data.database.ArtistRoomDataSource
+import com.architectcoders.musictoday.data.server.ArtistServerDataSource
+import com.architectcoders.musictoday.data.database.ArtistEntity as ArtistDB
+
+
+fun buildArtistRepository(
+    localData: List<ArtistDB> = emptyList(),
+    remoteData: List<ArtistDB> = emptyList()
+): ArtistRepository {
+    val localDS = ArtistRoomDataSource(FakeArtistDao())
+    val locationHelper = FakeLocationHelper()
+    val remoteDS = ArtistServerDataSource(FakeRemoteService())
+    return ArtistRepository(localDS, remoteDS)
+}
+
+
+fun buildArtistDB(vararg id: Int) = id.map{
+    ArtistDB(
+        id = it,
+        favorite = false,
+        biography = "biography $it",
+        imageUrl = "imageURL $it",
+        name = "name $it",
+        publishingDate = "publishDate $it"
+    )
+}
+
+fun buildRemoteDB(vararg id: Int) = id.map {
+
+}
+
+
+

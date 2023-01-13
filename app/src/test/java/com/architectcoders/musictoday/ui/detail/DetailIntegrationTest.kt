@@ -1,27 +1,20 @@
 package com.architectcoders.musictoday.ui.detail
 
 import app.cash.turbine.test
-import arrow.core.right
-import com.architectcoders.musictoday.FakeLocalDataSource
-import com.architectcoders.musictoday.FakeRemoteDataSource
-import com.architectcoders.musictoday.buildArtistRepository
-import com.architectcoders.musictoday.data.ArtistRepository
+import com.architectcoders.appTestShared.buildArtistRepository
 import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.sampleArtist
 import com.architectcoders.musictoday.ui.detail.DetailViewModel.*
-import com.architectcoders.musictoday.ui.main.MainViewModel
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
 import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import org.mockito.kotlin.whenever
 
 @ExperimentalCoroutinesApi
 class DetailIntegrationTest {

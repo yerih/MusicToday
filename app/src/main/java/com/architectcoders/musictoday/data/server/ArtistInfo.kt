@@ -4,27 +4,26 @@ import com.google.gson.annotations.SerializedName
 
 data class ArtistInfo(
     @SerializedName("artist") val artist: Artist
-//    val artist: Artist
 ) {
     data class Artist(
-        val bio: Bio,
-        val image: List<Image>,
+        val bio: Bio = Bio(),
+        val image: List<Image> = listOf(),
         val name: String,
-        val ontour: String,
-        val similar: Similar,
-        val stats: Stats,
-        val streamable: String,
-        val tags: Tags,
-        val url: String
+        val ontour: String = "",
+        val similar: Similar = Similar(listOf()),
+        val stats: Stats? = null,
+        val streamable: String = "",
+        val tags: Tags? = null,
+        val url: String = ""
     ) {
         data class Bio(
-            val content: String,
-            val links: Links,
-            val published: String,
-            val summary: String
+            val content: String = "",
+            val links: Links = Links(),
+            val published: String = "",
+            val summary: String = ""
         ) {
             data class Links(
-                val link: Link
+                val link: Link? = null
             ) {
                 data class Link(
                     @SerializedName("#text") val text: String,

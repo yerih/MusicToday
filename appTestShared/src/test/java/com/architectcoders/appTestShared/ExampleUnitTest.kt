@@ -1,4 +1,4 @@
-package com.architectcoders.musictoday
+package com.architectcoders.appTestShared
 
 import org.junit.Test
 
