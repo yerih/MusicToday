@@ -12,7 +12,7 @@ fun buildArtistRepository(
 ): ArtistRepository {
     val localDS = ArtistRoomDataSource(FakeArtistDao())
     val locationHelper = FakeLocationHelper()
-    val remoteDS = ArtistServerDataSource(FakeRemoteService())
+    val remoteDS = ArtistServerDataSource(locationHelper, FakeRemoteService())
     return ArtistRepository(localDS, remoteDS)
 }
 

@@ -6,7 +6,6 @@ import com.architectcoders.musictoday.ui.detail.DetailViewModel.*
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
 import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf

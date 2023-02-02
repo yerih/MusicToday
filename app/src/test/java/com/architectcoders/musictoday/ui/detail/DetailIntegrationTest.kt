@@ -1,8 +1,9 @@
 package com.architectcoders.musictoday.ui.detail
 
 import app.cash.turbine.test
+import com.architectcoders.appTestShared.buildArtistDB
 import com.architectcoders.appTestShared.buildArtistRepository
-import com.architectcoders.musictoday.domain.Artist
+import com.architectcoders.musictoday.data.database.ArtistEntity as ArtistDB
 import com.architectcoders.musictoday.sampleArtist
 import com.architectcoders.musictoday.ui.detail.DetailViewModel.*
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
@@ -30,7 +31,7 @@ class DetailIntegrationTest {
     @After
     fun tearDown() = Dispatchers.resetMain()
 
-    private fun buildViewModel(artistId: Int, localData: List<Artist> = emptyList(), remoteData: List<Artist> = emptyList()): DetailViewModel{
+    private fun buildViewModel(artistId: Int, localData: List<ArtistDB> = emptyList(), remoteData: List<ArtistDB> = emptyList()): DetailViewModel{
         val artistRepository      = buildArtistRepository(localData, remoteData)
         val findArtistsUseCase    = FindArtistByIdUseCase(artistRepository)
         val getArtistByIdUseCase  = GetArtistInfoUseCase(artistRepository)
@@ -41,8 +42,7 @@ class DetailIntegrationTest {
 
     @Test
     fun `view is updated with artist info on start`() = runTest{
-        val artists = listOf(sampleArtist.copy(1), sampleArtist.copy(2))
-        val vm = buildViewModel(1, artists, artists)
+        val vm = buildViewModel(1, localData = buildArtistDB(1, 2, 3))
         vm.state.test {
             assertEquals(UiState(), awaitItem())
             assertEquals(UiState(artist = sampleArtist.copy(1)), awaitItem())
@@ -52,8 +52,7 @@ class DetailIntegrationTest {
 
     @Test
     fun `favorite field is updated in local datasource`() = runTest{
-        val artists = listOf(sampleArtist.copy(1), sampleArtist.copy(2))
-        val vm = buildViewModel(1, localData = artists, remoteData = artists)
+        val vm = buildViewModel(1, localData = buildArtistDB(1,2,3))
         vm.onFavoriteClicked()
         vm.state.test {
             assertEquals(UiState(), awaitItem())
