@@ -1,8 +1,10 @@
 package com.architectcoders.musictoday.ui.main
 
 import app.cash.turbine.test
+import com.architectcoders.appTestShared.buildArtistDB
 import com.architectcoders.appTestShared.buildArtistRepository
-import com.architectcoders.musictoday.domain.Artist
+import com.architectcoders.musictoday.data.database.toDomainModel
+import com.architectcoders.musictoday.data.database.ArtistEntity as ArtistDB
 import com.architectcoders.musictoday.sampleArtist
 import com.architectcoders.musictoday.ui.main.MainViewModel.*
 import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
@@ -27,7 +29,7 @@ class MainIntegrationTest {
     @After
     fun tearDown() = Dispatchers.resetMain()
 
-    private fun buildViewModel(localData: List<Artist> = emptyList(), remoteData: List<Artist> = emptyList()): MainViewModel{
+    private fun buildViewModel(localData: List<ArtistDB> = emptyList(), remoteData: List<ArtistDB> = emptyList()): MainViewModel{
         val artistRepository = buildArtistRepository(localData, remoteData)
         val getPopularArtistUseCase = GetPopularArtistUseCase(artistRepository)
         val requestArtistsUseCase = RequestArtistsUseCase(artistRepository)
@@ -36,7 +38,7 @@ class MainIntegrationTest {
 
     @Test
     fun `data is loaded from server when local data is empty`() = runTest {
-        val remoteData = listOf(sampleArtist.copy(id = 1))
+        val remoteData = buildArtistDB(1,2,3)
         val vm = buildViewModel(remoteData = remoteData)
 
         vm.onUiReady()
@@ -45,20 +47,20 @@ class MainIntegrationTest {
             assertEquals(UiState(artists = emptyList(), loading = false), awaitItem())
             assertEquals(UiState(loading = true), awaitItem())
             assertEquals(UiState(loading = false), awaitItem())
-            assertEquals(UiState(loading = false, artists = remoteData), awaitItem())
+            assertEquals(UiState(loading = false, artists = remoteData.toDomainModel()), awaitItem())
             cancel()
         }
     }
 
     @Test
     fun `data is loaded from local data when available`() = runTest{
-        val localData = listOf(sampleArtist.copy(id = 1), sampleArtist.copy(id = 2))
+        val localData = buildArtistDB(1,2,3)
         val vm = buildViewModel(localData, remoteData = emptyList())
 
         vm.onUiReady()
         vm.state.test {
             assertEquals(UiState(), awaitItem())
-            assertEquals(UiState(artists = localData), awaitItem())
+            assertEquals(UiState(artists = localData.toDomainModel()), awaitItem())
             assertEquals(UiState(loading = true), awaitItem())
             assertEquals(UiState(loading = false), awaitItem())
             cancel()

@@ -10,9 +10,9 @@ fun buildArtistRepository(
     localData: List<ArtistDB> = emptyList(),
     remoteData: List<ArtistDB> = emptyList()
 ): ArtistRepository {
-    val localDS = ArtistRoomDataSource(FakeArtistDao())
+    val localDS = ArtistRoomDataSource(FakeArtistDao(localData))
     val locationHelper = FakeLocationHelper()
-    val remoteDS = ArtistServerDataSource(locationHelper, FakeRemoteService())
+    val remoteDS = ArtistServerDataSource(locationHelper, FakeRemoteService(remoteData))
     return ArtistRepository(localDS, remoteDS)
 }
 

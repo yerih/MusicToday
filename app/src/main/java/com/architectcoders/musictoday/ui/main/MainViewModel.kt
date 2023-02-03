@@ -5,7 +5,6 @@ import com.architectcoders.musictoday.data.*
 import com.architectcoders.musictoday.data.server.PopularArtists
 import com.architectcoders.musictoday.data.server.toError
 import com.architectcoders.musictoday.domain.Artist
-import com.architectcoders.musictoday.sampleArtist
 import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
 import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

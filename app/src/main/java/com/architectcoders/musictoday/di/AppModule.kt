@@ -7,6 +7,10 @@ import com.architectcoders.musictoday.data.database.ArtistRoomDataSource
 import com.architectcoders.musictoday.data.datasource.ArtistLocalDataSource
 import com.architectcoders.musictoday.data.datasource.ArtistRemoteDataSource
 import com.architectcoders.musictoday.data.server.ArtistServerDataSource
+import com.architectcoders.musictoday.data.server.MusicService
+import com.architectcoders.musictoday.ui.common.LocationDataSource
+import com.architectcoders.musictoday.ui.common.LocationManager
+import com.architectcoders.musictoday.ui.common.PlayServicesLocationDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -35,6 +39,14 @@ object AppModule {
     @Provides
     @Singleton
     fun provideArtistDao(db: ArtistDatabase) = db.ArtistDao()
+
+    @Provides
+    @Singleton
+    fun provideLocationDataSource(app: Application): LocationDataSource = PlayServicesLocationDataSource(app)
+
+    @Provides
+    @Singleton
+    fun provideMusicService(app: Application): MusicService = MusicService.service
 
 }
 
