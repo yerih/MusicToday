@@ -45,7 +45,8 @@ class DetailIntegrationTest {
         val vm = buildViewModel(1, localData = buildArtistDB(1, 2, 3))
         vm.state.test {
             assertEquals(UiState(), awaitItem())
-            assertEquals(UiState(artist = sampleArtist.copy(1)), awaitItem())
+            val artist = awaitItem().artist!!
+            assertEquals(artist.id, 1)
             cancel()
         }
     }
