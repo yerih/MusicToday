@@ -5,6 +5,7 @@ import com.architectcoders.musictoday.data.database.ArtistDao
 import com.architectcoders.musictoday.data.database.toDomainModel
 import com.architectcoders.musictoday.data.datasource.ArtistRemoteDataSource
 import com.architectcoders.musictoday.data.server.ArtistInfo
+import com.architectcoders.musictoday.data.server.ArtistServerDataSource
 import com.architectcoders.musictoday.data.server.MusicService
 import com.architectcoders.musictoday.data.server.PopularArtists
 import com.architectcoders.musictoday.data.database.ArtistEntity as ArtistDB
@@ -36,8 +37,8 @@ class FakeArtistDao(artists: List<ArtistDB> = emptyList()) : ArtistDao {
 }
 
 
-class FakeLocationHelper: LocationDataSource{
-    private var location: String? = null
+class FakeLocationHelper(country: String? = null): LocationDataSource{
+    private var location: String? = country
 //    var location = "US"
     override suspend fun findLastLocation(): Location? = null
     override suspend fun getCountryByGPS(): String? = location

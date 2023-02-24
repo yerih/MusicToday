@@ -8,10 +8,11 @@ import com.architectcoders.musictoday.data.database.ArtistEntity as ArtistDB
 
 fun buildArtistRepository(
     localData: List<ArtistDB> = emptyList(),
-    remoteData: List<ArtistDB> = emptyList()
+    remoteData: List<ArtistDB> = emptyList(),
+    country: String? = null
 ): ArtistRepository {
     val localDS = ArtistRoomDataSource(FakeArtistDao(localData))
-    val remoteDS = ArtistServerDataSource(FakeLocationHelper(), FakeRemoteService(remoteData))
+    val remoteDS = ArtistServerDataSource(FakeLocationHelper(country), FakeRemoteService(remoteData))
     return ArtistRepository(localDS, remoteDS)
 }
 

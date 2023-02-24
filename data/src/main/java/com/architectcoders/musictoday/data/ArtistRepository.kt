@@ -19,10 +19,7 @@ class ArtistRepository @Inject constructor(
 
     suspend fun requestArtists(): Error? {
         if (localDataSource.isEmpty()) {
-            remoteDataSource.getPopularArtists().fold(
-                { return it },
-                { localDataSource.save(it) }
-            )
+            remoteDataSource.getPopularArtists().fold({ return it }, { localDataSource.save(it) })
         }
         return null
     }

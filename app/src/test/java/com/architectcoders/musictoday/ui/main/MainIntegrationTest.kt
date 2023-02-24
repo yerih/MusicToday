@@ -29,17 +29,35 @@ class MainIntegrationTest {
     @After
     fun tearDown() = Dispatchers.resetMain()
 
-    private fun buildViewModel(localData: List<ArtistDB> = emptyList(), remoteData: List<ArtistDB> = emptyList()): MainViewModel{
-        val artistRepository = buildArtistRepository(localData, remoteData)
+    private fun buildViewModel(localData: List<ArtistDB> = emptyList(), remoteData: List<ArtistDB> = emptyList(), country: String? = null): MainViewModel{
+        val artistRepository = buildArtistRepository(localData, remoteData, country)
         val getPopularArtistUseCase = GetPopularArtistUseCase(artistRepository)
         val requestArtistsUseCase = RequestArtistsUseCase(artistRepository)
         return MainViewModel(getPopularArtistUseCase, requestArtistsUseCase)
     }
 
     @Test
-    fun `data is loaded from server when local data is empty`() = runTest {
+    fun `data is loaded from server when local data is empty and gps is turn off or fail getting country`() = runTest {
         val remoteData = buildArtistDB(1,2,3)
-        val vm = buildViewModel(remoteData = remoteData)
+        val vm = buildViewModel(remoteData = remoteData, country = null)
+
+        vm.onUiReady()
+        vm.state.test {
+            assertEquals(UiState(), awaitItem())
+            assertEquals(UiState(artists = emptyList(), loading = false), awaitItem())
+            assertEquals(UiState(loading = true), awaitItem())
+            assertEquals(UiState(loading = false), awaitItem())
+            val artists = awaitItem().artists!!
+            assertEquals(artists[0].name, "name 1")
+            assertEquals(artists[1].name, "name 2")
+            assertEquals(artists[2].name, "name 3")
+            cancel()
+        }
+    }
+    @Test
+    fun `data is loaded from server when local data is empty and gps gets country`() = runTest {
+        val remoteData = buildArtistDB(1,2,3)
+        val vm = buildViewModel(remoteData = remoteData, country = "US")
 
         vm.onUiReady()
         vm.state.test {

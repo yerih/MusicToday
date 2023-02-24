@@ -17,7 +17,7 @@ class ArtistServerDataSource @Inject constructor(
 
     override suspend fun getPopularArtists(): Either<Error, List<Artist>> = tryCall {
         locationHelper.getCountryByGPS()?.let { country ->
-            MusicService.service.getArtistByLocation(country).topArtists.artists
+            remoteService.getArtistByLocation(country).topArtists.artists
                 .take(10)
                 .map { artistLocation -> artistLocation.toDomainModel() }
         } ?: remoteService.getPopularArtists().artists.toDomainModel()
