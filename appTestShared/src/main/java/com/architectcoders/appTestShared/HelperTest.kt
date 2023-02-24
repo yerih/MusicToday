@@ -11,8 +11,7 @@ fun buildArtistRepository(
     remoteData: List<ArtistDB> = emptyList()
 ): ArtistRepository {
     val localDS = ArtistRoomDataSource(FakeArtistDao(localData))
-    val locationHelper = FakeLocationHelper()
-    val remoteDS = ArtistServerDataSource(locationHelper, FakeRemoteService(remoteData))
+    val remoteDS = ArtistServerDataSource(FakeLocationHelper(), FakeRemoteService(remoteData))
     return ArtistRepository(localDS, remoteDS)
 }
 
@@ -28,9 +27,8 @@ fun buildArtistDB(vararg id: Int) = id.map{
     )
 }
 
-fun buildRemoteDB(vararg id: Int) = id.map {
 
-}
+
 
 
 

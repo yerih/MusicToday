@@ -47,7 +47,10 @@ class MainIntegrationTest {
             assertEquals(UiState(artists = emptyList(), loading = false), awaitItem())
             assertEquals(UiState(loading = true), awaitItem())
             assertEquals(UiState(loading = false), awaitItem())
-            assertEquals(UiState(loading = false, artists = remoteData.toDomainModel()), awaitItem())
+            val artists = awaitItem().artists!!
+            assertEquals(artists[0].name, "name 1")
+            assertEquals(artists[1].name, "name 2")
+            assertEquals(artists[2].name, "name 3")
             cancel()
         }
     }

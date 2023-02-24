@@ -37,14 +37,15 @@ class FakeArtistDao(artists: List<ArtistDB> = emptyList()) : ArtistDao {
 
 
 class FakeLocationHelper: LocationDataSource{
-    var location = "US"
+    private var location: String? = null
+//    var location = "US"
     override suspend fun findLastLocation(): Location? = null
     override suspend fun getCountryByGPS(): String? = location
 }
 
-class FakeRemoteService(val artists: List<ArtistDB> = emptyList()): MusicService{
+class FakeRemoteService(private val artists: List<ArtistDB> = emptyList()): MusicService{
     override suspend fun getPopularArtists() = PopularArtists(
-        artists = artists.map { PopularArtists.Artist(id = it.id, name = "name ${it.id}") },
+        artists = artists.map { PopularArtists.Artist(id = it.id, name = it.name) },
         total = artists.size
     )
 
