@@ -19,7 +19,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.architectcoders.musictoday.di.HiltTestRunner"
     }
     buildFeatures {
         dataBinding true
@@ -65,6 +65,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
     androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.5"
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
 
     //Retrofit
@@ -108,6 +109,8 @@ dependencies {
     def hiltVersion = "2.42"
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    kaptAndroidTest "com.google.dagger:hilt-compiler:$hiltVersion"
 
 
 }

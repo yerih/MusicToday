@@ -1,4 +1,4 @@
-package com.architectcoders.di
+package com.architectcoders.musictoday.di
 
 import android.app.Application
 import android.content.Context
