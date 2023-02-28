@@ -1,10 +1,13 @@
 package com.architectcoders.musictoday.di
 
+import android.app.Application
+import androidx.room.Room
 import com.architectcoders.appTestShared.FakeArtistDao
 import com.architectcoders.appTestShared.FakeLocationHelper
 import com.architectcoders.appTestShared.FakeRemoteService
 import com.architectcoders.appTestShared.buildArtistDB
 import com.architectcoders.musictoday.data.database.ArtistDao
+import com.architectcoders.musictoday.data.database.ArtistDatabase
 import com.architectcoders.musictoday.data.database.ArtistRoomDataSource
 import com.architectcoders.musictoday.data.datasource.ArtistLocalDataSource
 import com.architectcoders.musictoday.data.datasource.ArtistRemoteDataSource
@@ -26,7 +29,7 @@ class TestAppModule {
 
     @Provides
     @Singleton
-    fun provideArtistDao(): ArtistDao = FakeArtistDao()
+    fun provideArtistDao(db: ArtistDatabase): ArtistDao = db.ArtistDao()
 
     @Provides
     @Singleton
@@ -36,6 +39,12 @@ class TestAppModule {
     @Singleton
     fun provideMusicService(): MusicService = FakeRemoteService(buildArtistDB(1,2,3,4,5,6))
 
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application) = Room.inMemoryDatabaseBuilder(
+        app,
+        ArtistDatabase::class.java,
+    ).build()
 
 }
 
