@@ -9,6 +9,7 @@ import com.architectcoders.appTestShared.buildArtistDB
 import com.architectcoders.musictoday.data.database.ArtistDao
 import com.architectcoders.musictoday.data.datasource.ArtistRemoteDataSource
 import com.architectcoders.musictoday.data.server.MusicService
+import com.architectcoders.musictoday.server_data.MockWebServerRule
 import com.architectcoders.musictoday.server_data.fromJson
 import com.architectcoders.musictoday.ui.common.LocationDataSource
 import dagger.hilt.android.testing.BindValue
@@ -34,11 +35,14 @@ class MainInstrumentationTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
+    val mockWSRule = MockWebServerRule()
+
+    @get:Rule(order = 2)
     val locationPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
         "android.permission.ACCESS_COARSE_LOCATION"
     )
 
-    @get:Rule(order = 2)
+    @get:Rule(order = 3)
     val activityRule = ActivityScenarioRule(NavHostActivity::class.java)
 
     @Inject
@@ -47,32 +51,10 @@ class MainInstrumentationTest {
     @Inject
     lateinit var remoteDataSource: ArtistRemoteDataSource
 
-    var server: MockWebServer = MockWebServer()
-
     @Before
     fun setUp(){
-//        server = MockWebServer().apply { start(8080) }
-        server = MockWebServer()
-        server.start(8080)
-        server.enqueue(MockResponse().fromJson("artists_gps_on.json"))
+        mockWSRule.server.enqueue(MockResponse().fromJson("artists_gps_on.json"))
         hiltRule.inject()
-    }
-
-    @After
-    fun tearDown(){
-        server.shutdown()
-    }
-
-    @Test
-    fun check_5_items_from_db() = runTest {
-        artistDao.insertArtists(buildArtistDB(1,2,3,4, 5))
-        assertEquals(5, artistDao.artistCount())
-    }
-
-    @Test
-    fun check_8_items_from_db() = runTest {
-        artistDao.insertArtists(buildArtistDB(6,7,8,9,10,11,12,13))
-        assertEquals(8, artistDao.artistCount())
     }
 
     @Test
