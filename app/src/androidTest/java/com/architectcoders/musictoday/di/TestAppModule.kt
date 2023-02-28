@@ -20,6 +20,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import retrofit2.create
 import javax.inject.Singleton
 
 
@@ -33,18 +34,24 @@ class TestAppModule {
 
     @Provides
     @Singleton
-    fun provideLocationDataSource(): LocationDataSource = FakeLocationHelper()
-
-    @Provides
-    @Singleton
-    fun provideMusicService(): MusicService = FakeRemoteService(buildArtistDB(1,2,3,4,5,6))
-
-    @Provides
-    @Singleton
     fun provideDatabase(app: Application) = Room.inMemoryDatabaseBuilder(
         app,
         ArtistDatabase::class.java,
     ).build()
+
+    @Provides
+    @Singleton
+    fun provideLocationDataSource(): LocationDataSource = FakeLocationHelper()
+
+    @Provides
+    @Singleton
+    @UrlTesting
+    fun provideUrlTesting(): String = "http://localhost:8080"
+
+    @Provides
+    @Singleton
+    fun provideMusicService(@UrlTesting url: String): MusicService = MusicService.buildRetrofitWith(url).create()
+
 
 }
 

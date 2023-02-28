@@ -4,11 +4,10 @@ package com.architectcoders.musictoday.data.server
 import com.architectcoders.musictoday.ui.main.ArtistSearch
 import com.architectcoders.musictoday.ui.main.ArtistsByLocation
 import com.google.gson.GsonBuilder
-import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -16,19 +15,25 @@ import retrofit2.http.Query
 interface MusicService {
 
     companion object{
-        private const val urlLastFm = "http://ws.audioscrobbler.com/2.0/"
+        const val urlLastFm = "http://ws.audioscrobbler.com/2.0/"
         private const val apiKeyLastFm = "7aa4aa6843767418d5fe6a88aea85321"//"03ebd6204944f82b3a5a51c2b3309ecf"
-        private val okHttpClient = OkHttpClient.Builder().addInterceptor(OkHttpProfilerInterceptor()).build()
+        private val okHttpClient = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+            OkHttpClient.Builder().addInterceptor(this).build()
+        }).build()
 
         private val gson = GsonBuilder().setLenient().create()
 
-        private val builder = Retrofit.Builder()
-            .baseUrl(urlLastFm)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
+//        private val builder = buildRetrofitWith(urlLastFm)
+        fun buildRetrofitWith(url: String): Retrofit {
+            return Retrofit.Builder()
+                .baseUrl(url)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+        }
 
-        val service: MusicService = builder.create()
+//        val service: MusicService = buildRetrofitWith(urlLastFm).create()//builder.create()
     }
 
     @GET("https://api.deezer.com/chart/0/artists")

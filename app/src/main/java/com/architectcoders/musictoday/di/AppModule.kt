@@ -16,6 +16,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.create
 import javax.inject.Singleton
 
 
@@ -44,9 +45,10 @@ object AppModule {
     @Singleton
     fun provideLocationDataSource(app: Application): LocationDataSource = PlayServicesLocationDataSource(app)
 
+
     @Provides
     @Singleton
-    fun provideMusicService(app: Application): MusicService = MusicService.service
+    fun provideMusicService(): MusicService = MusicService.buildRetrofitWith(MusicService.urlLastFm).create()//MusicService.service
 
 }
 
