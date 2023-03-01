@@ -45,10 +45,9 @@ object AppModule {
     @Singleton
     fun provideLocationDataSource(app: Application): LocationDataSource = PlayServicesLocationDataSource(app)
 
-
     @Provides
     @Singleton
-    fun provideMusicService(): MusicService = MusicService.buildRetrofitWith(MusicService.urlLastFm).create()//MusicService.service
+    fun provideMusicService(): MusicService = MusicService.buildRetrofitWith().create()//MusicService.service
 
 }
 

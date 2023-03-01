@@ -17,7 +17,7 @@ interface MusicService {
     companion object{
         const val urlLastFm = "http://ws.audioscrobbler.com/2.0/"
         private const val apiKeyLastFm = "7aa4aa6843767418d5fe6a88aea85321"//"03ebd6204944f82b3a5a51c2b3309ecf"
-        private val okHttpClient = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
+        val okHttpClient = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
             OkHttpClient.Builder().addInterceptor(this).build()
         }).build()
@@ -25,10 +25,10 @@ interface MusicService {
         private val gson = GsonBuilder().setLenient().create()
 
 //        private val builder = buildRetrofitWith(urlLastFm)
-        fun buildRetrofitWith(url: String): Retrofit {
+        fun buildRetrofitWith(url: String = urlLastFm, client: OkHttpClient = okHttpClient): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(url)
-                .client(okHttpClient)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
         }

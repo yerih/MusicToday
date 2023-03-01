@@ -20,6 +20,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import okhttp3.OkHttpClient
 import retrofit2.create
 import javax.inject.Singleton
 
@@ -50,7 +51,11 @@ class TestAppModule {
 
     @Provides
     @Singleton
-    fun provideMusicService(@UrlTesting url: String): MusicService = MusicService.buildRetrofitWith(url).create()
+    fun provideOkHttpClient() = MusicService.okHttpClient
+
+    @Provides
+    @Singleton
+    fun provideMusicService(@UrlTesting url: String, okHttpClient: OkHttpClient): MusicService = MusicService.buildRetrofitWith(url, okHttpClient).create()
 
 
 }
