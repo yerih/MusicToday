@@ -15,6 +15,17 @@
         android:theme="@style/Theme.MusicToday"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.MusicToday">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.NavHostActivity"
             android:exported="true"
             android:theme="@style/Theme.MusicToday.NoActionBar">

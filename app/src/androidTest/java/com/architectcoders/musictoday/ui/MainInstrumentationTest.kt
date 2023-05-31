@@ -24,7 +24,9 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 import com.architectcoders.musictoday.R
+import com.architectcoders.musictoday.matchers.DrawableTestMatcher.Companion.withDrawable
 import okhttp3.OkHttpClient
+import org.hamcrest.CoreMatchers.equalTo
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
@@ -76,5 +78,16 @@ class MainInstrumentationTest {
         )
         onView(withId(R.id.artist_detail_toolbar))
             .check(matches(hasDescendant(withText("Sech"))))
+    }
+
+    @Test
+    fun icon_color_changes_when_favorite_btn_is_clicked_in_detail_screen() {
+        onView(withId(R.id.recycler)).perform(
+            actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click())
+        )
+        onView(withId(R.id.btn_favorite))
+            .perform(click())
+//            .check(matches(withDrawable(R.drawable.ic_favorite_true)))
+            .check(matches(hasDescendant(withId(R.drawable.ic_favorite_true)) ))
     }
 }
