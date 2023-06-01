@@ -100,8 +100,10 @@ class Challenge {
         .toList()
 
     // 3 Objeto en que las claves sean los nombres de los bancos y los valores un arreglo con los ruts de sus clientes ordenados alfabéticamente por nombre.
-    fun banksClientsTaxNumbers() {
-        // CODE HERE
+    fun banksClientsTaxNumbers() = accounts.sortedBy { it.clientId }.groupBy { it.bankId }.map { g ->
+            mapOf(banks[g.key-1].name to g.value.map {
+                clients.sortedBy { c -> c.name }[it.clientId-1].taxNumber
+            })
     }
 
     // 4 Arreglo ordenado decrecientemente con los saldos de clientes que tengan más de 25.000 en el Banco SANTANDER
