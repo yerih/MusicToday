@@ -1,5 +1,7 @@
 package com.architectcoders.musictoday.ui
 
+import arrow.core.invalid
+
 // Propiedad intelectual= Esta prueba fue desarrollada por TCIT el año 2014 y registrada bajo propiedad intelectual, cualquier publicación o difamación podría estar sujeta a acciones legales. Hay otras empresas que nos han copiado esta prueba, no aceptes imitaciones, exige el original xD
 
 // No realizar la prueba en repl.it al hacerlo su respuesta queda disponible para otros postulantes, tampoco subirla a repositorios de github públicos
@@ -85,7 +87,7 @@ class Challenge {
     fun listClientsIdsSortByTaxNumber() = clients.sortedBy { it.taxNumber }.map { it.id }
 
     // 2 Arreglo con los nombres de cliente ordenados de mayor a menor por la suma TOTAL de los saldos de cada cliente en los bancos que participa.
-    fun sortClientsTotalBalances(): List<String> = accounts.asSequence().sortedBy { it.clientId }
+    fun sortClientsTotalBalances(input: List<Account> = accounts): List<String> = input.asSequence().sortedBy { it.clientId }
         .groupBy { it.clientId }
         .map { g -> with(g.value[0]){
                 return@with Account(
@@ -95,7 +97,7 @@ class Challenge {
                 )
             }
         }
-        .sortedBy {it.balance }
+        .sortedBy {it.balance }.apply { println("before map = ${this.size}") }
         .map { e -> clients[e.clientId-1].name }
         .toList()
 
@@ -107,23 +109,32 @@ class Challenge {
     }
 
     // 4 Arreglo ordenado decrecientemente con los saldos de clientes que tengan más de 25.000 en el Banco SANTANDER
-    fun richClientsBalances() {
-        // CODE HERE
+    private fun getAccountWithTotals() = accounts.asSequence().sortedBy { it.clientId }
+        .groupBy { it.clientId }
+        .map { g -> with(g.value[0]){
+            return@with Account(
+                clientId = clientId,
+                balance  = g.value.sumOf { it.balance },
+                bankId   = bankId
+            )
+        } }
+        .sortedBy {it.balance }
+    fun richClientsBalances() = getAccountWithTotals().asReversed().filter {
+        it.bankId == banks[0].id && it.balance > 25000
     }
 
     // 5 Arreglo con ids de bancos ordenados crecientemente por la cantidad TOTAL de dinero que administran.
-    fun banksRankingByTotalBalance() {
-        // CODE HERE
-    }
+    fun banksRankingByTotalBalance() = getAccountWithTotals().groupBy { it.bankId }.map {g -> g.key }.asReversed()
 
     // 6 Objeto en que las claves sean los nombres de los bancos y los valores el número de clientes que solo tengan cuentas en ese banco.
-    fun banksFidelity() {
-        // CODE HERE
-    }
+    fun banksFidelity() = accounts.groupBy { it.clientId }.toSortedMap()
+        .map {g -> g.value.distinctBy { it.bankId } }
+        .filter { it.size == 1 }
+        .map {mapOf(banks[it[0].bankId-1].name to it.size) }
 
     // 7 Objeto en que las claves sean los nombres de los bancos y los valores el id de su cliente con menos dinero.
-    fun banksPoorClients() {
-        // CODE HERE
+    fun banksPoorClients() = getAccountWithTotals().groupBy { it.bankId }.map { g ->
+        mapOf(banks[g.key-1].name to g.value[0].clientId)
     }
 
     /*
@@ -132,7 +143,27 @@ class Challenge {
         No modificar arreglos originales para no alterar las respuestas anteriores al correr la solución
     */
     fun newClientRanking() {
-        // CODE HERE
+        val newClients = clients.toMutableList().plus(Client(
+            id = clients.last().id + 1,
+            name = "Yerih Iturriago",
+            taxNumber = "12345678"
+        ))
+
+        val newAccounts = accounts.toMutableList().plus(Account(
+                clientId = newClients.last().id,
+                balance = 9000,
+                bankId = 3
+        ))
+
+
+        val out = sortClientsTotalBalances(newAccounts)
+            .apply {
+                println("l = $this")
+            }
+//            .indexOf(newClients.last())
+//        println("new = ${(newClients.last())}")
+//        println("acc = ${(newAccounts.last())}")
+        println("out = $out")
     }
 }
 
