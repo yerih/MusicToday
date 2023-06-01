@@ -1,7 +1,5 @@
 package com.architectcoders.musictoday.ui
 
-import arrow.core.invalid
-
 // Propiedad intelectual= Esta prueba fue desarrollada por TCIT el año 2014 y registrada bajo propiedad intelectual, cualquier publicación o difamación podría estar sujeta a acciones legales. Hay otras empresas que nos han copiado esta prueba, no aceptes imitaciones, exige el original xD
 
 // No realizar la prueba en repl.it al hacerlo su respuesta queda disponible para otros postulantes, tampoco subirla a repositorios de github públicos
@@ -87,7 +85,10 @@ class Challenge {
     fun listClientsIdsSortByTaxNumber() = clients.sortedBy { it.taxNumber }.map { it.id }
 
     // 2 Arreglo con los nombres de cliente ordenados de mayor a menor por la suma TOTAL de los saldos de cada cliente en los bancos que participa.
-    fun sortClientsTotalBalances(input: List<Account> = accounts): List<String> = input.asSequence().sortedBy { it.clientId }
+    fun sortClientsTotalBalances(
+        newAccounts: List<Account> = accounts,
+        newClients: List<Client> = clients
+    ): List<String> = newAccounts.asSequence().sortedBy { it.clientId }
         .groupBy { it.clientId }
         .map { g -> with(g.value[0]){
                 return@with Account(
@@ -97,8 +98,8 @@ class Challenge {
                 )
             }
         }
-        .sortedBy {it.balance }.apply { println("before map = ${this.size}") }
-        .map { e -> clients[e.clientId-1].name }
+        .sortedByDescending {it.balance }.apply { println("before map = $this") }
+        .map { e -> newClients[e.clientId-1].name }
         .toList()
 
     // 3 Objeto en que las claves sean los nombres de los bancos y los valores un arreglo con los ruts de sus clientes ordenados alfabéticamente por nombre.
@@ -142,10 +143,11 @@ class Challenge {
         Luego devolver el lugar que ocupa este cliente en el ranking de la pregunta 2.
         No modificar arreglos originales para no alterar las respuestas anteriores al correr la solución
     */
-    fun newClientRanking() {
+    fun newClientRanking(): Int {
+        val name = "Yerih Iturriago"
         val newClients = clients.toMutableList().plus(Client(
             id = clients.last().id + 1,
-            name = "Yerih Iturriago",
+            name = name,
             taxNumber = "12345678"
         ))
 
@@ -154,16 +156,9 @@ class Challenge {
                 balance = 9000,
                 bankId = 3
         ))
-
-
-        val out = sortClientsTotalBalances(newAccounts)
-            .apply {
-                println("l = $this")
-            }
-//            .indexOf(newClients.last())
-//        println("new = ${(newClients.last())}")
-//        println("acc = ${(newAccounts.last())}")
-        println("out = $out")
+        return sortClientsTotalBalances(newAccounts, newClients)
+            .apply { println("$this") }
+            .indexOf(name)
     }
 }
 
