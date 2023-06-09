@@ -2,7 +2,8 @@ package com.architectcoders.musictoday.ui.main
 
 import app.cash.turbine.test
 import com.architectcoders.musictoday.sampleArtist
-import com.architectcoders.musictoday.ui.main.MainViewModel.*
+import com.architectcoders.musictoday.ui.compose.home.HomeViewModel
+import com.architectcoders.musictoday.ui.compose.home.HomeViewModel.*
 import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
 import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +11,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.*
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -22,7 +22,7 @@ import org.mockito.kotlin.whenever
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class MainViewModelTest {
+class HomeViewModelTest {
 
     @Mock
     lateinit var requestArtistUseCase: RequestArtistsUseCase
@@ -30,7 +30,7 @@ class MainViewModelTest {
     @Mock
     lateinit var getPopularArtistUseCase: GetPopularArtistUseCase
 
-    private lateinit var vm: MainViewModel
+    private lateinit var vm: HomeViewModel
     private var artists = listOf(sampleArtist.copy(id = 2))
     private val testDispatcher = StandardTestDispatcher()
 
@@ -39,7 +39,7 @@ class MainViewModelTest {
     fun setUp(){
         Dispatchers.setMain(testDispatcher)
         whenever(getPopularArtistUseCase()).thenReturn(flowOf(artists))
-        vm = MainViewModel(getPopularArtistUseCase, requestArtistUseCase)
+        vm = HomeViewModel(getPopularArtistUseCase, requestArtistUseCase)
     }
 
     @After

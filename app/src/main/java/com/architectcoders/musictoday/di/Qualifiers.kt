@@ -6,6 +6,10 @@ import javax.inject.Qualifier
 @Qualifier
 annotation class ArtistId
 
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class Id
+
 
 
 

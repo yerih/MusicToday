@@ -18,6 +18,7 @@ import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
 import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.flowOf
 
 @AndroidEntryPoint
 class DetailFragment: Fragment(R.layout.fragment_detail) {
@@ -30,7 +31,7 @@ class DetailFragment: Fragment(R.layout.fragment_detail) {
         val binding = FragmentDetailBinding.bind(view)
         binding.artistDetailToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         binding.btnFavorite.setOnClickListener { viewModel.onFavoriteClicked() }
-        viewLifecycleOwner.launchAndCollect(viewModel.state){ it ->
+        viewLifecycleOwner.launchAndCollect(flowOf(viewModel.state)){ it ->
             binding.artist = it.artist
             binding.error = it.error?.errorToString(requireContext())
         }

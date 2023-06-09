@@ -5,8 +5,8 @@ import com.architectcoders.appTestShared.buildArtistDB
 import com.architectcoders.appTestShared.buildArtistRepository
 import com.architectcoders.musictoday.data.database.toDomainModel
 import com.architectcoders.musictoday.data.database.ArtistEntity as ArtistDB
-import com.architectcoders.musictoday.sampleArtist
-import com.architectcoders.musictoday.ui.main.MainViewModel.*
+import com.architectcoders.musictoday.ui.compose.home.HomeViewModel
+import com.architectcoders.musictoday.ui.compose.home.HomeViewModel.*
 import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
 import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 import kotlinx.coroutines.Dispatchers
@@ -29,11 +29,11 @@ class MainIntegrationTest {
     @After
     fun tearDown() = Dispatchers.resetMain()
 
-    private fun buildViewModel(localData: List<ArtistDB> = emptyList(), remoteData: List<ArtistDB> = emptyList(), country: String? = null): MainViewModel{
+    private fun buildViewModel(localData: List<ArtistDB> = emptyList(), remoteData: List<ArtistDB> = emptyList(), country: String? = null): HomeViewModel {
         val artistRepository = buildArtistRepository(localData, remoteData, country)
         val getPopularArtistUseCase = GetPopularArtistUseCase(artistRepository)
         val requestArtistsUseCase = RequestArtistsUseCase(artistRepository)
-        return MainViewModel(getPopularArtistUseCase, requestArtistsUseCase)
+        return HomeViewModel(getPopularArtistUseCase, requestArtistsUseCase)
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.architectcoders.musictoday.di
 
 import android.app.Application
+import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
 import com.architectcoders.musictoday.data.database.ArtistDatabase
 import com.architectcoders.musictoday.data.database.ArtistRoomDataSource
@@ -48,6 +49,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideMusicService(): MusicService = MusicService.buildRetrofitWith().create()//MusicService.service
+
+
 
 }
 
