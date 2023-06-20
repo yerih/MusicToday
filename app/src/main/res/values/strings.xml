@@ -6,4 +6,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="home_screen">Home</string>
     <string name="detail_screen">Detail Screen</string>
+    <string name="Biography">biography</string>
+    <string name="Published">Published</string>
 </resources>

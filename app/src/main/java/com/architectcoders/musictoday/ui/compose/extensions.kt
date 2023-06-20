@@ -6,7 +6,7 @@ import coil.request.ImageRequest
 import com.google.gson.Gson
 
 @Composable
-fun asyncImageModel(url: String): ImageRequest {
+fun asyncImageModel(url: String? = null): ImageRequest {
     return ImageRequest.Builder(LocalContext.current)
         .data(url)
         .crossfade(true)
