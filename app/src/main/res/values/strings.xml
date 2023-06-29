@@ -8,4 +8,7 @@
     <string name="detail_screen">Detail Screen</string>
     <string name="Biography">biography</string>
     <string name="Published">Published</string>
+    <string name="home">Home</string>
+    <string name="events">Events</string>
+    <string name="search">Search</string>
 </resources>

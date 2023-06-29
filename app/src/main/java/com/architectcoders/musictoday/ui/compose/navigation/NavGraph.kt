@@ -1,29 +1,30 @@
 package com.architectcoders.musictoday.ui.compose.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.ui.compose.detail.DetailScreen
-import com.architectcoders.musictoday.ui.compose.fromJson
 import com.architectcoders.musictoday.ui.compose.home.HomeScreen
-import com.architectcoders.musictoday.ui.compose.toJson
 
 
 @Composable
 fun NavGraph(){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = NavItem.Home.route){
-        composable(NavItem.Home.route){
+    NavHost(
+        navController = navController,
+        startDestination = NavCommand.Type(Feature.HOME).route
+    ){
+        composable(NavCommand.Type(Feature.HOME).route){
             HomeScreen{ item ->
-                navController.navigate(NavItem.Detail.buildRoute(item.id))
+                navController.navigate(NavCommand.TypeDetail(Feature.DETAIL).buildRoute(item.id))
             }
         }
 
         composable(
-            route = NavItem.Detail.route,
-            arguments = NavItem.Detail.args
+            route = NavCommand.TypeDetail(Feature.DETAIL).route,
+            arguments = NavCommand.TypeDetail(Feature.DETAIL).args
         ){
             DetailScreen{ navController.navigateUp() }
         }
