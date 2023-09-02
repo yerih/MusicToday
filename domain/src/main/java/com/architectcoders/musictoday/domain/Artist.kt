@@ -6,7 +6,9 @@ data class Artist(
     val biography: String = "",
     val publishingDate: String = "",
     val imageUrl: String = "",
-    val favorite: Boolean = false
+    val favorite: Boolean = false,
+    val mbid: String = "",
+    val genre: String = "",
 )
 
 

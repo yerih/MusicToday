@@ -9,6 +9,8 @@ import com.architectcoders.musictoday.data.datasource.ArtistLocalDataSource
 import com.architectcoders.musictoday.data.datasource.ArtistRemoteDataSource
 import com.architectcoders.musictoday.data.server.ArtistServerDataSource
 import com.architectcoders.musictoday.data.server.MusicService
+import com.architectcoders.musictoday.data.server.musicovery.MusicoveryService
+import com.architectcoders.musictoday.data.server.musicovery.URL_MUSICOVERY
 import com.architectcoders.musictoday.ui.common.LocationDataSource
 import com.architectcoders.musictoday.ui.common.LocationManager
 import com.architectcoders.musictoday.ui.common.PlayServicesLocationDataSource
@@ -48,9 +50,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMusicService(): MusicService = MusicService.buildRetrofitWith().create()//MusicService.service
+    fun provideMusicService(): MusicService = MusicService.buildRetrofitWith().create()
 
-
+    @Provides
+    @Singleton
+    fun provideMusicoveryService(): MusicoveryService = MusicService.buildRetrofitWith(URL_MUSICOVERY).create()
 
 }
 

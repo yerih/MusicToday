@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.architectcoders.musictoday.data.ArtistRepository
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
 import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
+import com.architectcoders.musictoday.usecases.GetSimilarArtistsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,4 +25,6 @@ object GeneralModule {
     @Provides
     fun provideGetArtistInfoUseCase(artistRepository: ArtistRepository): GetArtistInfoUseCase = GetArtistInfoUseCase(artistRepository)
 
+    @Provides
+    fun provideGetSimilarArtists(artistRepository: ArtistRepository): GetSimilarArtistsUseCase = GetSimilarArtistsUseCase(artistRepository)
 }

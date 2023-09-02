@@ -9,6 +9,7 @@ import com.architectcoders.musictoday.data.server.toError
 import com.architectcoders.musictoday.domain.Artist
 import com.architectcoders.musictoday.ui.main.ArtistsByLocation
 import com.architectcoders.musictoday.usecases.GetPopularArtistUseCase
+import com.architectcoders.musictoday.usecases.GetSimilarArtistsUseCase
 import com.architectcoders.musictoday.usecases.RequestArtistsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -18,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     getPopularArtistUseCase: GetPopularArtistUseCase,
-    private val requestArtistsUseCase: RequestArtistsUseCase
+    private val requestArtistsUseCase: RequestArtistsUseCase,
 ) : ViewModel() {
 
     data class UiState(
@@ -38,6 +39,7 @@ class HomeViewModel @Inject constructor(
             getPopularArtistUseCase()
                 .catch { cause -> state = state.copy(error = cause.toError()) }
                 .collect { state = UiState(artists = it) }
+
         }
     }
 

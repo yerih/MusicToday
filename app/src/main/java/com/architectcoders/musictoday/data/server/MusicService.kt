@@ -15,7 +15,7 @@ import retrofit2.http.Query
 interface MusicService {
 
     companion object{
-        const val urlLastFm = "http://ws.audioscrobbler.com/2.0/"
+        private const val urlLastFm = "http://ws.audioscrobbler.com/2.0/"
         private const val apiKeyLastFm = "7aa4aa6843767418d5fe6a88aea85321"//"03ebd6204944f82b3a5a51c2b3309ecf"
         val okHttpClient = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -24,7 +24,6 @@ interface MusicService {
 
         private val gson = GsonBuilder().setLenient().create()
 
-//        private val builder = buildRetrofitWith(urlLastFm)
         fun buildRetrofitWith(url: String = urlLastFm, client: OkHttpClient = okHttpClient): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(url)
@@ -33,7 +32,6 @@ interface MusicService {
                 .build()
         }
 
-//        val service: MusicService = buildRetrofitWith(urlLastFm).create()//builder.create()
     }
 
     @GET("https://api.deezer.com/chart/0/artists")

@@ -2,20 +2,24 @@ package com.architectcoders.musictoday.data.server
 
 import arrow.core.Either
 import com.architectcoders.musictoday.data.datasource.ArtistRemoteDataSource
+import com.architectcoders.musictoday.data.server.musicovery.MusicoveryService
 import com.architectcoders.musictoday.domain.Artist
-import com.architectcoders.musictoday.domain.Error
+import com.architectcoders.musictoday.domain.Response
 import com.architectcoders.musictoday.ui.common.LocationDataSource
-import com.architectcoders.musictoday.ui.common.LocationHelper
 import com.architectcoders.musictoday.ui.main.ArtistsByLocation
+import retrofit2.HttpException
 import javax.inject.Inject
+import kotlin.Error
+import com.architectcoders.musictoday.domain.Error as ErrorDomain
 
 
 class ArtistServerDataSource @Inject constructor(
     private val locationHelper: LocationDataSource,
-    private val remoteService: MusicService
+    private val remoteService: MusicService,
+    private val musicoveryService: MusicoveryService,
 ) : ArtistRemoteDataSource {
 
-    override suspend fun getPopularArtists(): Either<Error, List<Artist>> = tryCall {
+    override suspend fun getPopularArtists(): Either<ErrorDomain, List<Artist>> = tryCall {
         locationHelper.getCountryByGPS()?.let { country ->
             remoteService.getArtistByLocation(country).topArtists.artists
                 .take(10)
@@ -23,11 +27,23 @@ class ArtistServerDataSource @Inject constructor(
         } ?: remoteService.getPopularArtists().artists.toDomainModel()
     }
 
-    override suspend fun getArtistInfo(artist: Artist): Either<Error, Artist> = tryCall {
+    override suspend fun getArtistInfo(artist: Artist): Either<ErrorDomain, Artist> = tryCall {
         remoteService.getArtistInfo(artist.name).artist.toDomainModel(artist)
     }
 
+    override suspend fun getSimilarArtists(artist: String): Response<List<Artist>> {
+        return try {
+            val result = musicoveryService.searchMusicovery(artist)
+            Response(result.value?.asArtistDomain())
+        }catch (http: HttpException){
+            Response(error = Error(http.message), value = null)
+        }catch (e: Exception){
+            Response(error = Error(e.message), value = null)
+        }
+    }
+
 }
+
 
 private fun ArtistInfo.Artist.toDomainModel(artist: Artist): Artist = artist.copy(
     name = name,

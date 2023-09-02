@@ -10,6 +10,7 @@ import com.architectcoders.musictoday.domain.Error
 import com.architectcoders.musictoday.usecases.FavoriteToggleUseCase
 import com.architectcoders.musictoday.usecases.FindArtistByIdUseCase
 import com.architectcoders.musictoday.usecases.GetArtistInfoUseCase
+import com.architectcoders.musictoday.usecases.GetSimilarArtistsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -20,7 +21,8 @@ class DetailViewModel @Inject constructor(
     @Id artistId: Int,
     findArtistByIdUseCase: FindArtistByIdUseCase,
     getArtistInfoUseCase: GetArtistInfoUseCase,
-    private val favoriteToggleUseCase: FavoriteToggleUseCase
+    private val favoriteToggleUseCase: FavoriteToggleUseCase,
+    private val getSimilarArtistsUseCase: GetSimilarArtistsUseCase
 ) : ViewModel() {
 
     data class UiState(val artist: Artist? = null, val error: Error? = null)
@@ -34,6 +36,14 @@ class DetailViewModel @Inject constructor(
                 result?.let { state = state.copy(error = result) }
                 ?: findArtistByIdUseCase(artistId).collect { artistUpdate -> state = state.copy(artist = artistUpdate) }
             }
+        }
+
+        viewModelScope.launch {
+            val result = getSimilarArtistsUseCase("slipknot")
+//            if(result.isValid())
+//                result.value
+//            else
+//                result.error
         }
     }
 

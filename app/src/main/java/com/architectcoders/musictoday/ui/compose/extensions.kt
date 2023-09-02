@@ -2,6 +2,7 @@ package com.architectcoders.musictoday.ui.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavHostController
 import coil.request.ImageRequest
 import com.google.gson.Gson
 
@@ -17,3 +18,10 @@ fun <T>T.toJson(): String = Gson().toJson(this)
 fun <T>String.fromJson(type: Class<T>): T = Gson().fromJson(this, type)
 
 
+fun NavHostController.navigatePopUpToStartDest(route: String){
+    navigate(route = route){
+        popUpTo(graph.startDestinationId){ saveState = true }
+        launchSingleTop = true
+        restoreState = true
+    }
+}
